@@ -19,6 +19,52 @@ worker process with the same database configuration. Alternatively, set
 a separate worker. `QUEUE_ADAPTER` selects the Active Job adapter and defaults
 to `solid_queue`.
 
+### Docker examples
+
+Build the image and use an existing Docker network named `decidim` that can
+reach PostgreSQL. Create a private environment file outside the repository
+(for example, `../decidim-production.env`) containing `DATABASE_URL`,
+`QUEUE_DATABASE_URL`, `SECRET_KEY_BASE`, and any other production settings.
+Database hosts in the URLs must be reachable from the containers; `localhost`
+inside a container refers to that container. Set `QUEUE_ADAPTER=solid_queue`.
+
+Prepare the databases once before starting either container:
+
+```sh
+docker build -t decidim-panama .
+docker run --rm --network decidim --env-file ../decidim-production.env \
+  -e SKIP_MIGRATIONS= decidim-panama true
+```
+
+The entrypoint runs both database preparation and data migrations. On a new
+primary database, preparation also runs Decidim seeds, which currently fail if
+no organization exists.
+
+Run Puma and a separate jobs container:
+
+```sh
+docker run -d --name decidim-web --network decidim \
+  --env-file ../decidim-production.env -e SKIP_MIGRATIONS=1 \
+  -e SOLID_QUEUE_IN_PUMA=false -p 3000:3000 decidim-panama
+docker run -d --name decidim-jobs --network decidim --no-healthcheck \
+  --env-file ../decidim-production.env -e SKIP_MIGRATIONS=1 decidim-panama bin/jobs
+```
+
+The web container explicitly disables the supervisor to override any setting
+in the environment file; `false` is already the default.
+
+Alternatively, run one Puma container with the queue supervisor enabled
+instead of the separate jobs container:
+
+```sh
+docker run -d --name decidim-web --network decidim \
+  --env-file ../decidim-production.env -e SKIP_MIGRATIONS=1 \
+  -e SOLID_QUEUE_IN_PUMA=true -p 3000:3000 decidim-panama
+```
+
+When using local file storage, mount the same persistent storage at
+`/app/storage` in both containers and make it writable by UID 1000.
+
 ## Setting up the application
 
 You will need to do some steps before having the app working properly once you have deployed it:
