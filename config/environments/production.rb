@@ -45,7 +45,7 @@ Rails.application.configure do
     :password => Decidim::Env.new("SMTP_PASSWORD").to_s,
     :domain => Decidim::Env.new("SMTP_DOMAIN").to_s,
     :enable_starttls_auto => Decidim::Env.new("SMTP_STARTTLS_AUTO", true).present?,
-    :openssl_verify_mode => "none"
+    :openssl_verify_mode => Decidim::Env.new("SMTP_OPENSSL_VERIFY_MODE", "peer").to_s
   }
   config.logger = ActiveSupport::TaggedLogging.logger($stdout) if ENV["RAILS_LOG_TO_STDOUT"].present?
 
