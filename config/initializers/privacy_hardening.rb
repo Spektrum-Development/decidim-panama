@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Disable open-data for users & moderations
 def Decidim.open_data_manifests
   # Decidim exposes some user data through open-data manifests, but we are limiting it to taxonomies only

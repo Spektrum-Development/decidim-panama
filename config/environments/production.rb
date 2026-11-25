@@ -47,7 +47,13 @@ Rails.application.configure do
     :enable_starttls_auto => Decidim::Env.new("SMTP_STARTTLS_AUTO", true).present?,
     :openssl_verify_mode => Decidim::Env.new("SMTP_OPENSSL_VERIFY_MODE", "peer").to_s
   }
-  config.logger = ActiveSupport::TaggedLogging.logger($stdout) if ENV["RAILS_LOG_TO_STDOUT"].present?
+
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    config.rails_semantic_logger.add_file_appender = false if defined?(RailsSemanticLogger)
+    logger = ActiveSupport::Logger.new($stdout)
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
 
   # Change to "debug" to log everything (including potentially personally-identifiable information!).
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")

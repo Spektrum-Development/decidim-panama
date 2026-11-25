@@ -1,4 +1,4 @@
-name: "[CI] Decidim SaaS"
+name: "[CI] Decidim Panama"
 on:
   push:
     branches:
