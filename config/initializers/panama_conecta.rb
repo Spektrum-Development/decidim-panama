@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "omniauth"
-require "omniauth/panama_conecta"
+require "omniauth/strategies/panama_conecta"
 
 if ENV["CONECTA_CLIENT_ID"].present? &&
    ENV["CONECTA_CLIENT_TOKEN"].present?
