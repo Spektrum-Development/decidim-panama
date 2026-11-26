@@ -79,39 +79,52 @@ You are good to go!
 
 ## Panamá Conecta SSO
 
-The Panamá Conecta OmniAuth provider is enabled when `PANAMA_CONECTA_CLIENT_ID`
-and `PANAMA_CONECTA_CLIENT_SECRET` are set. The same `clientSecretToken`
-provided by Panamá Conecta is used as the login `accessToken` and as the
-`X-Client-Secret` header when validating the returned user token.
+The Panamá Conecta OmniAuth provider is enabled when `CONECTA_CLIENT_ID`
+and `CONECTA_CLIENT_TOKEN` are set. The registered client domain is also
+required to start sign-in. The client token is sent to Panamá Conecta's
+`service-sso` endpoint and as the login `accessToken`.
 
 | Environment variable | Required | Default | Purpose |
 | --- | --- | --- | --- |
-| `PANAMA_CONECTA_CLIENT_ID` | Yes | — | Registered client ID; sent as `X-Client-Id` during user validation. |
-| `PANAMA_CONECTA_CLIENT_SECRET` | Yes | — | Registered `clientSecretToken`; used for login and user validation. |
-| `PANAMA_CONECTA_CLIENT_DOMAIN` | No | Current request base URL | Registered client domain sent as `ownDomain`. Set this to the exact `clientDomain` provided by Panamá Conecta when possible. |
-| `PANAMA_CONECTA_SITE` | No | "" | Panamá Conecta login site. |
-| `PANAMA_CONECTA_API_SITE` | No | "" | API base URL used to validate the returned user token. |
-| `PANAMA_CONECTA_APP_TYPE` | No | `web` | Application type passed to the login service, such as `web` or `desktop`. |
+| `CONECTA_CLIENT_ID` | Yes | — | Registered client ID required by the provider configuration. |
+| `CONECTA_CLIENT_TOKEN` | Yes | — | Registered `clientSecretToken`; sent in the `service-sso` JSON body and login URL. |
+| `CONECTA_CLIENT_DOMAIN` | Yes | — | Registered Decidim domain; used as OmniAuth's public host and the API request's `Referer`. |
+| `CONECTA_SITE` | No | `https://qapanamaconecta.aig.gob.pa` | Panamá Conecta login site; also sent as the `Origin` header to its API. |
+| `CONECTA_API_SITE` | No | `https://apiqapanamaconecta.aig.gob.pa:8443` | Base URL for the `service-sso` and user-info API requests. |
+| `CONECTA_APP_TYPE` | No | `web` | Application type included in the login URL, such as `web` or `desktop`. |
 
-Register the callback URL `<clientDomain>/users/auth/panama_connecta/callback` with Panamá Conecta.
-The OmniAuth middleware handles `/sso/userinfo` with or without the trailing
-slash. The sign-in button uses OmniAuth's normal request route for
-`panama_conecta`.
+Register the callback URL `<clientDomain>/users/auth/panama_conecta/callback` with Panamá Conecta.
+The sign-in button uses OmniAuth's normal request route for `panama_conecta`.
 
 Example environment configuration (keep real credentials in a private
 environment file or secret manager, not in source control):
 
 ```sh
-PANAMA_CONECTA_CLIENT_ID=your-client-id
-PANAMA_CONECTA_CLIENT_SECRET=your-client-secret-token
-PANAMA_CONECTA_CLIENT_DOMAIN=https://your-decidim-domain.example
+CONECTA_CLIENT_ID=your-client-id
+CONECTA_CLIENT_TOKEN=your-client-secret-token
+CONECTA_CLIENT_DOMAIN=https://your-decidim-domain.example
 # Panamá Conecta environment URLs:
-PANAMA_CONECTA_SITE=https://the-panama-conecta-domain
-PANAMA_CONECTA_API_SITE=https://the-panama-conect-api-domain
-# PANAMA_CONECTA_APP_TYPE=web
+CONECTA_SITE=https://the-panama-conecta-domain
+CONECTA_API_SITE=https://the-panama-conect-api-domain
+# CONECTA_APP_TYPE=web
 ```
 
-The registered client domain can be left unset when the app's request host is
-the same as the domain registered with Panamá Conecta. The strategy uses this
-domain directly for `ownDomain` and skips the `service-sso` lookup, which may
-return a browser-only Imperva/TSPD verification page to server-side requests.
+The normal OmniAuth request route starts the flow. The strategy posts
+`{ "clientToken": "..." }` to `/api/sso/service-sso` with JSON content and
+`Accept`, `User-Agent`, `Origin`, and `Referer` headers. `Origin` is
+`CONECTA_SITE`; `Referer` is `CONECTA_CLIENT_DOMAIN`. It uses the returned
+`result.data.clientdomain` and `result.data.clienttype` in the `/sso/login` URL.
+Panamá Conecta returns to the
+registered callback URL with a `token` query parameter. The strategy preserves
+that token exactly as it appears in the raw query string (including `+`), then
+posts it as a Bearer token to `/api/user/user-info`.
+
+The current user-info response maps `user_id` to OmniAuth's UID,
+`nombre_completo` to the name, and `correo_electronico` to the email. Only
+whitelisted profile fields are exposed as `raw_info`; credentials and returned
+token fields are not retained in the OmniAuth auth hash.
+
+**Callback CSRF limitation:** Panamá Conecta does not currently return the
+OmniAuth `state` value, and the strategy's state comparison is disabled. This
+must be resolved before production use, either by having AIG return a
+per-sign-in correlation value or by reviewing a suitable alternative.
