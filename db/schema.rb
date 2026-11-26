@@ -853,58 +853,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_25_181244) do
     t.index ["likes_count"], name: "index_decidim_debates_debates_on_likes_count"
   end
 
-  create_table "decidim_dev_coauthorable_dummy_resources", force: :cascade do |t|
-    t.jsonb "translatable_text"
-    t.string "title"
-    t.string "body"
-    t.text "address"
-    t.float "latitude"
-    t.float "longitude"
-    t.datetime "published_at"
-    t.datetime "deleted_at"
-    t.integer "coauthorships_count", default: 0, null: false
-    t.integer "likes_count", default: 0, null: false
-    t.integer "comments_count", default: 0, null: false
-    t.bigint "decidim_component_id"
-    t.bigint "decidim_category_id"
-    t.bigint "decidim_scope_id"
-    t.string "reference"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "decidim_dev_dummy_resources", force: :cascade do |t|
-    t.jsonb "translatable_text"
-    t.jsonb "title"
-    t.string "body"
-    t.text "address"
-    t.float "latitude"
-    t.float "longitude"
-    t.datetime "published_at"
-    t.datetime "deleted_at"
-    t.integer "coauthorships_count", default: 0, null: false
-    t.integer "likes_count", default: 0, null: false
-    t.integer "comments_count", default: 0, null: false
-    t.integer "follows_count", default: 0, null: false
-    t.bigint "decidim_component_id"
-    t.integer "decidim_author_id"
-    t.string "decidim_author_type"
-    t.integer "decidim_user_group_id"
-    t.bigint "decidim_category_id"
-    t.bigint "decidim_scope_id"
-    t.string "reference"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "decidim_dev_nested_dummy_resources", force: :cascade do |t|
-    t.jsonb "translatable_text"
-    t.string "title"
-    t.bigint "dummy_resource_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "decidim_editor_images", force: :cascade do |t|
     t.bigint "decidim_author_id", null: false
     t.bigint "decidim_organization_id", null: false
@@ -1843,7 +1791,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_25_181244) do
     t.integer "comments_count", default: 0, null: false
     t.datetime "deleted_at"
     t.index ["cancelled_by_user_id"], name: "index_decidim_sortitions_sortitions_on_cancelled_by_user_id"
-    t.index ["comments_count"], name: "index_decidim_sortitions_sortitions_on_comments_count"
     t.index ["decidim_author_id", "decidim_author_type"], name: "index_decidim_sortitions_sortitions_on_decidim_author"
     t.index ["decidim_author_id"], name: "idx_on_decidim_author_id_c14fe8c981"
     t.index ["decidim_component_id"], name: "index_sortitions__on_feature"

@@ -6,3 +6,16 @@
 // available at https://docs.decidim.org/en/develop/customize/styles.html#_tailwind_css
 //
 // By default this is empty.
+
+.login__omniauth-button {
+  @apply inline-flex items-center;
+  background-color: rgb(0, 60, 111);
+
+  span {
+    @apply block;
+  }
+
+  img.icon.external-icon {
+    @apply h-9 w-auto p-0.5 inline-block !important;
+  }
+}

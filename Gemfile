@@ -18,6 +18,7 @@ gem "decidim-templates", DECIDIM_VERSION
 gem "decidim-term_customizer", github: "openpoke/decidim-module-term_customizer", branch: "main"
 
 gem "bootsnap", "~> 1.3"
+gem "deface"
 gem "puma", ">= 6.3.1"
 gem "rails_semantic_logger"
 gem "solid_queue", "~> 1.7"

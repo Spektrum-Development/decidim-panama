@@ -1,0 +1,5 @@
+es:
+  devise:
+    login:
+      admin_login: Acceso de administración
+      sign_in_panama_conecta: Iniciar sesión con Panamá Conecta

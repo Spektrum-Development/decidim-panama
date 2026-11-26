@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: https://github.com/decidim/decidim.git
-  revision: 75335286d98a617b8361335e6c1f954f7d3a1eca
+  revision: fb0edb0cc3a9c28116ec124ac822772cf531df51
   branch: release/0.32-stable
   specs:
     decidim (0.32.3)
@@ -306,7 +306,7 @@ GEM
     auth-sanitizer (0.2.5)
       version_gem (~> 1.1, >= 1.1.16)
     aws-eventstream (1.4.1)
-    aws-partitions (1.1311.0)
+    aws-partitions (1.1312.0)
     aws-sdk-core (3.272.0)
       aws-eventstream (~> 1, >= 1.4.1)
       aws-partitions (~> 1, >= 1.992.0)
@@ -997,7 +997,7 @@ GEM
     websocket-driver (0.9.0)
       base64
       websocket-extensions (>= 0.2.0)
-    websocket-extensions (0.2.0)
+    websocket-extensions (0.3.0)
     wisper (3.0.0)
     wisper-rspec (1.1.0)
     xpath (3.2.0)
@@ -1021,6 +1021,7 @@ DEPENDENCIES
   decidim-elections!
   decidim-templates!
   decidim-term_customizer!
+  deface
   letter_opener_web
   listen
   puma (>= 6.3.1)
