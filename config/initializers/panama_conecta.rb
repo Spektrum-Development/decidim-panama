@@ -11,7 +11,6 @@ if ENV["PANAMA_CONECTA_CLIENT_ID"].present? &&
              ENV.fetch("PANAMA_CONECTA_CLIENT_SECRET"),
              client_token: ENV.fetch("PANAMA_CONECTA_CLIENT_SECRET"),
              client_domain: ENV.fetch("PANAMA_CONECTA_CLIENT_DOMAIN", nil),
-             callback_path: "/sso/userinfo",
              client_options: {
                site: ENV.fetch("PANAMA_CONECTA_SITE")
              },
