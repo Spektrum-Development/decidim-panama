@@ -1,0 +1,10 @@
+<!-- insert_before 'erb[silent]:contains("if content_for?(:note) or content_for?(:unsubscribe)")' -->
+
+<%# DBC: the operator's line %>
+<table class="container">
+  <tr>
+    <td>
+      <%= render "layouts/dbc/mailer/email_footer" %>
+    </td>
+  </tr>
+</table>
