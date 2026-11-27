@@ -14,6 +14,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y ca-certificates c
 
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
+ENV BUNDLE_PATH=/usr/local/bundle
 
 WORKDIR /code
 
@@ -44,7 +45,7 @@ RUN gem install bundler:$(grep -A 1 'BUNDLED WITH' Gemfile.lock | tail -n 1 | xa
 RUN npm ci
 
 # copy the rest of files
-COPY ./code /code/app
+COPY ./app /code/app
 COPY ./bin /code/bin
 COPY ./config /code/config
 COPY ./db /code/db
@@ -53,6 +54,7 @@ COPY ./public/*.* /code/public/
 COPY ./config.ru /code/config.ru
 COPY ./Rakefile /code/Rakefile
 COPY ./postcss.config.js /code/postcss.config.js
+COPY ./tsconfig.json /code/tsconfig.json
 
 # Compile assets with Webpacker or Sprockets. Executing "assets:precompile"
 # also runs "webpacker:compile".
@@ -84,6 +86,7 @@ EXPOSE 3000
 ENV RAILS_LOG_TO_STDOUT=true
 ENV RAILS_SERVE_STATIC_FILES=true
 ENV RAILS_ENV=production
+ENV BUNDLE_PATH=/usr/local/bundle
 
 # Add user
 RUN addgroup --system --gid 1000 app && \
@@ -95,7 +98,6 @@ COPY --from=builder --chown=app:app /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder --chown=app:app /code /code
 RUN mkdir -p /code/tmp/pids && chown app:app /code/tmp /code/tmp/pids
 
-USER app
 USER app
 HEALTHCHECK --interval=1m --timeout=5s --start-period=30s \
   CMD curl -fsS http://localhost:3000/up || exit 1

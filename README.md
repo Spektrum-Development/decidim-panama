@@ -33,25 +33,28 @@ web and worker containers:
 ```sh
 docker build -t decidim-panama .
 docker run --rm --network decidim --env-file ../decidim-production.env \
+  -e SKIP_MIGRATIONS=1 \
   decidim-panama bundle exec rails db:prepare data:migrate
 ```
 
-The entrypoint runs both database preparation and data migrations. On a new
-primary database, preparation also runs Decidim seeds, which currently fail if
-no organization exists.
+The entrypoint runs database preparation and Decidim data migrations on
+startup unless `SKIP_MIGRATIONS=1` is set. On a new primary database,
+preparation also runs Decidim seeds, which currently fail if no organization
+exists.
 
 Run Puma and a separate jobs container:
 
 ```sh
 docker run -d --name decidim-web --network decidim \
-  --env-file ../decidim-production.env -p 3000:3000 decidim-panama
+  --env-file ../decidim-production.env -e SKIP_MIGRATIONS=1 \
+  -p 3000:3000 decidim-panama
 docker run -d --name decidim-sidekiq --network decidim --no-healthcheck \
-  --env-file ../decidim-production.env decidim-panama \
+  --env-file ../decidim-production.env -e SKIP_MIGRATIONS=1 decidim-panama \
   bundle exec sidekiq -C config/sidekiq.yml
 ```
 
 When using local file storage, mount the same persistent storage at
-`/app/storage` in both containers and make it writable by UID 1000.
+`/code/storage` in both containers and make it writable by UID 1000.
 
 ## Setting up the application
 
