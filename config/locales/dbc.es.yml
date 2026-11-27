@@ -2,7 +2,7 @@
 # config/locales beside dbc_wording.en.yml. Only the keys that change are here; everything else is
 # Decidim's own. "Aporte" is masculine, so articles, demonstratives and agreeing words change with it
 # (la propuesta publicada -> el aporte publicado). Taken from Decidim 0.31.6's own Spanish
-# (decidim-proposals, -core, -meetings, -accountability, -budgets, -sortitions, -participatory_processes)
+# (decidim-proposals, -core, -meetings, -accountability, -budgets, -participatory_processes)
 # for every string a participant can see; the admin panel keeps "propuesta" (admin.* and admin_log.*
 # keys are left out on purpose: only staff read them). Ngäbere falls back to these (ngabere.rb).
 # Decidim's generic help pages about processes and assemblies, which use "propuesta" in its everyday
@@ -425,27 +425,6 @@ es:
         result_proposal: Aportes incluidos en este resultado
       proposals_from_meeting:
         meeting_proposal: 'Aportes relacionados:'
-    sortitions:
-      sortitions:
-        count:
-          proposals_count:
-            one: 1 aporte
-            other: '%{count} aportes'
-        linked_sortitions:
-          selected_proposals: Aportes seleccionados
-        results_count:
-          count:
-            one: Aporte seleccionado
-            other: Aportes seleccionados
-        show:
-          candidate_proposal_ids: Orden e IDs de los aportes del sorteo
-          candidate_proposals_info: 'El sorteo se realizó entre los siguientes aportes (%{taxonomy_labels}), con los siguientes ID (en negrita los aportes seleccionados)'
-          introduction: 'Esta página contiene los resultados del sorteo %{reference}. Mediante esta clasificación, %{target_items} número de resultados se han seleccionado al azar y con una distribución de probabilidad igual del conjunto de aportes que se muestran a continuación. Junto con los resultados, la información que se muestra en esta página proporciona toda la información necesaria para maximizar las garantías y reproducir los resultados. La clave de la calidad de esta clasificación es la doble aleatoriedad proporcionada por el lanzamiento de un dado (verificado por testigos) y el momento preciso del sorteo que proporciona la entrada para un algoritmo que genera una selección aleatoria. La semilla de tiempo del sorteo es tan precisa (segundos) que es imposible de controlar por los seres humanos, proporcionando así una doble entrada "incontrolable" para garantizar un resultado justo.'
-          proposals_selected_by_sortition: Aportes seleccionados por sorteo
-        sortition:
-          selected_proposals:
-            one: 1 aporte seleccionado
-            other: aportes seleccionados
     statistics:
       participants_count_tooltip: El número de usuarios únicos que han interactuado en este espacio presentando aportes, asistiendo a encuentros, dando apoyo a aportes, votando a proyectos o uniéndose a debates.
       participatory_space_proposals_count: Aportes
