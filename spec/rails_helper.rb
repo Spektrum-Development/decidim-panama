@@ -7,6 +7,14 @@ require "simplecov"
 SimpleCov.start "rails"
 ENV["RAILS_ENV"] ||= "test"
 
+# The Panama Conecta provider is conditionally mounted during application boot.
+# These public dummy values make its routes available to mocked system specs in
+# CI; OmniAuth test mode prevents any request from reaching the external API.
+ENV["CONECTA_CLIENT_ID"] ||= "panama-conecta-test-client"
+ENV["CONECTA_CLIENT_TOKEN"] ||= "panama-conecta-test-token"
+ENV["CONECTA_SITE"] ||= "conecta.example.org"
+ENV["CONECTA_API_SITE"] ||= "conecta-api.example.org"
+
 require File.expand_path("../config/environment", __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
@@ -18,6 +26,18 @@ require "decidim/dev"
 Decidim::Dev.dummy_app_path = File.expand_path(File.join(__dir__, ".."))
 
 require "decidim/dev/test/base_spec_helper"
+
+# Chrome 158 rejects Capybara's Storage.clearDataForOrigin call with origin "*".
+# Use the base Selenium reset, which clears cookies and storage for the current origin.
+Capybara::Selenium::Driver::ChromeDriver.class_eval do
+  def reset!
+    return unless @browser
+
+    switch_to_window(window_handles.first)
+    window_handles.slice(1..).each { |win| close_window(win) }
+    super
+  end
+end
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

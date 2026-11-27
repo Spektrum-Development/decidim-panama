@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: https://github.com/decidim/decidim.git
-  revision: 75335286d98a617b8361335e6c1f954f7d3a1eca
+  revision: fb0edb0cc3a9c28116ec124ac822772cf531df51
   branch: release/0.32-stable
   specs:
     decidim (0.32.3)
@@ -306,7 +306,7 @@ GEM
     auth-sanitizer (0.2.5)
       version_gem (~> 1.1, >= 1.1.16)
     aws-eventstream (1.4.1)
-    aws-partitions (1.1311.0)
+    aws-partitions (1.1312.0)
     aws-sdk-core (3.272.0)
       aws-eventstream (~> 1, >= 1.4.1)
       aws-partitions (~> 1, >= 1.992.0)
@@ -381,6 +381,9 @@ GEM
       bigdecimal
       rexml
     crass (1.0.8)
+    cronex (0.15.0)
+      tzinfo
+      unicode (>= 0.4.4.5)
     css_parser (3.4.0)
       addressable
       base64
@@ -453,8 +456,8 @@ GEM
     et-orbi (1.4.2)
       tzinfo
     excon (1.12.0)
-    factory_bot (6.6.0)
-      activesupport (>= 6.1.0)
+    factory_bot (6.7.0)
+      activesupport (>= 7.0.0)
     factory_bot_rails (6.5.1)
       factory_bot (~> 6.5)
       railties (>= 6.1.0)
@@ -917,6 +920,17 @@ GEM
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
       semantic_range (>= 2.3.0)
+    sidekiq (8.1.7)
+      connection_pool (>= 3.0.0)
+      json (>= 2.16.0)
+      logger (>= 1.7.0)
+      rack (>= 3.2.0)
+      redis-client (>= 0.29.0)
+    sidekiq-cron (2.4.0)
+      cronex (>= 0.13.0)
+      fugit (~> 1.8, >= 1.11.1)
+      globalid (>= 1.0.1)
+      sidekiq (>= 6.5.0)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -930,16 +944,6 @@ GEM
     snaky_hash (2.0.9)
       hashie (>= 0.1.0, < 6)
       version_gem (~> 1.1, >= 1.1.16)
-    solid_queue (1.7.2)
-      activejob (>= 7.1)
-      activerecord (>= 7.1)
-      concurrent-ruby (>= 1.3.1)
-      fugit (~> 1.11)
-      railties (>= 7.1)
-      thor (>= 1.3.1)
-    solid_queue_monitor (2.4.0)
-      rails (>= 7.0)
-      solid_queue (>= 0.1.0)
     spring (4.7.0)
     spring-watcher-listen (2.1.0)
       listen (>= 2.7, < 4.0)
@@ -957,6 +961,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     uber (0.1.0)
+    unicode (0.4.4.5)
     unicode-display_width (3.3.0)
       unicode-emoji (~> 4.3)
     unicode-emoji (4.3.0)
@@ -989,20 +994,20 @@ GEM
     web-push (3.1.0)
       jwt (~> 3.0)
       openssl (>= 3.0)
-    webmock (3.41.0)
+    webmock (3.42.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     websocket (1.2.11)
-    websocket-driver (0.9.0)
+    websocket-driver (0.9.1)
       base64
       websocket-extensions (>= 0.2.0)
-    websocket-extensions (0.2.0)
+    websocket-extensions (0.3.0)
     wisper (3.0.0)
     wisper-rspec (1.1.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yard (0.9.45)
+    yard (0.9.46)
     zeitwerk (2.8.3)
 
 PLATFORMS
@@ -1021,12 +1026,13 @@ DEPENDENCIES
   decidim-elections!
   decidim-templates!
   decidim-term_customizer!
+  deface
   letter_opener_web
   listen
   puma (>= 6.3.1)
   rails_semantic_logger
-  solid_queue (~> 1.7)
-  solid_queue_monitor (~> 2.2)
+  sidekiq
+  sidekiq-cron
   web-console
 
 RUBY VERSION

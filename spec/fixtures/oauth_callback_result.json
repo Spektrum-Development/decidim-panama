@@ -1,0 +1,22 @@
+{
+  "status":true,
+  "http_code":200,
+  "message":"Datos obtenidos",
+  "result": {
+    "data": {
+      "celular":null,
+      "cedula":"0-000-0000",
+      "primer_nombre":"Test",
+      "segundo_nombre":"OAuth",
+      "apellido_paterno":"Example",
+      "apellido_materno":"User",
+      "apellido_casada":"",
+      "correo_electronico":"oauth.user@example.org",
+      "token":"REDACTED",
+      "user_id":"00000000-0000-4000-8000-000000000000",
+      "pasaporte":null,
+      "associated_apps_token":"REDACTED",
+      "nombre_completo":"Test OAuth Example User"
+    }
+  }
+}
