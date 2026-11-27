@@ -1,0 +1,456 @@
+# Decidim's proposals wording in Spanish: "aporte", not "propuesta" (D228), mounted into Decidim's
+# config/locales beside dbc_wording.en.yml. Only the keys that change are here; everything else is
+# Decidim's own. "Aporte" is masculine, so articles, demonstratives and agreeing words change with it
+# (la propuesta publicada -> el aporte publicado). Taken from Decidim 0.31.6's own Spanish
+# (decidim-proposals, -core, -meetings, -accountability, -budgets, -sortitions, -participatory_processes)
+# for every string a participant can see; the admin panel keeps "propuesta" (admin.* and admin_log.*
+# keys are left out on purpose: only staff read them). Ngäbere falls back to these (ngabere.rb).
+# Decidim's generic help pages about processes and assemblies, which use "propuesta" in its everyday
+# sense, are left as they are. Re-check against Decidim's own file on each upgrade (D215): a key
+# renamed upstream silently goes back to "propuesta".
+#
+# Also the labels for a document awaiting a staff check (dbc.document_hold, D227, document_hold.rb).
+# Draft: for a Panamanian reader to check (D164).
+es:
+  activemodel:
+    attributes:
+      close_meeting:
+        proposal_ids: Aportes creados en el encuentro
+    models:
+      decidim/accountability/proposal_linked_event: Aporte incluido en un resultado
+      decidim/proposals/creation_enabled_event: Creación de aportes habilitada
+      decidim/proposals/liking_enabled_event: '"Me gusta" activados para aportes'
+      decidim/proposals/proposal_mentioned_event: Aporte mencionado
+      decidim/proposals/publish_proposal_event: Aporte publicado
+      decidim/proposals/voting_enabled_event: Apoyo de aportes habilitado
+  activerecord:
+    models:
+      decidim:
+        accountability:
+          result:
+            proposal_ids: 'Fue incluido en este aporte: %{link}'
+        proposals:
+          proposal:
+            budget_text: 'El aporte <span class="resource-link">%{link} se creó</span>'
+            import_from_proposal_text: 'Se convirtió en este aporte: %{link}'
+            import_to_proposal_text: 'Este aporte <span "resource-link">%{link} fue creado</span>'
+            merge_from_proposal_text: 'Se convirtió en este aporte: %{link}'
+            merge_to_proposal_text: 'Este aporte fue creado: %{link}'
+            split_from_proposal_text: 'Se convirtió en este aporte: %{link}'
+            split_to_proposal_text: 'Este aporte fue creado: %{link}'
+      decidim/proposals/proposal:
+        one: Aporte
+        other: Aportes
+  dbc:
+    document_hold:
+      awaiting: 'En revisión: el equipo publicará una copia revisada'
+      checked: 'Revisado: el equipo publicó una copia revisada'
+      see_checked_copy: Ver la copia revisada
+  decidim:
+    amendments:
+      promoted:
+        error: Se ha producido un error al publicar la enmienda como un nuevo aporte.
+        success: La enmienda se ha publicado correctamente como un nuevo aporte.
+    components:
+      component_order_selector:
+        order:
+          proposal: Aporte
+    download_your_data:
+      help:
+        comments:
+          commentable_type: La tipología de aquello sobre lo que se realizó el comentario (si fue un resultado, un aporte, etc.)
+      show:
+        explanation:
+          body_1: Estos archivos son conjuntos de datos exportados de tu actividad en esta plataforma, tales como aportes, o comentarios. Proporcionan datos en bruto (sin procesar) y estructurados que pueden ser utilizados para análisis, investigación o integración con otras herramientas
+        proposal_comments: Exportar los comentarios a los aportes
+        proposals: Exportar los aportes
+    events:
+      accountability:
+        proposal_linked:
+          email_intro: 'El aporte "%{proposal_title}" se ha incluido en un resultado. Puedes verlo desde esta página:'
+          email_outro: 'Has recibido esta notificación porque estás siguiendo el aporte "%{proposal_title}". Puedes dejar de recibir notificaciones siguiendo el enlace anterior.'
+          notification_title: 'Se ha incluido el aporte <a href="%{proposal_path}">%{proposal_title}</a> en el resultado <a href="%{resource_path}">%{resource_title}</a>.'
+        result_progress_updated:
+          email_intro: 'El resultado "%{resource_title}", que incluye el aporte "%{proposal_title}", está completado al %{progress}%. Puedes verlo desde esta página:'
+          email_outro: 'Has recibido esta notificación porque estás siguiendo el aporte "%{proposal_title}" y este se incluye en el resultado "%{resource_title}". Puedes dejar de recibir notificaciones siguiendo el enlace anterior.'
+          notification_title: 'El resultado <a href="%{resource_path}">%{resource_title}</a>, que incluye el aporte <a href="%{proposal_path}">%{proposal_title}</a>, ahora está completado al %{progress}%.'
+      proposals:
+        accepted_coauthorship:
+          notification_title: 'Se te ha añadido como coautora del aporte "<a href="%{resource_path}">%{resource_title}</a>".'
+        coauthor_accepted_invite:
+          notification_title: '<a href="%{coauthor_path}">%{coauthor_name}</a> ha aceptado tu invitación para ser coautora del aporte "<a href="%{resource_path}">%{resource_title}</a>".'
+        coauthor_invited:
+          email_intro: 'Te han invitado a ser coautora del aporte "%{resource_title}". Puedes aceptar o rechazar la invitación en esta página:'
+          email_outro: Has recibido esta notificación porque la autora del aporte quiere reconocer tus contribuciones convirtiéndote en coautora.
+          email_subject: 'Se te ha añadido como coautora del aporte "%{resource_title}"'
+          notification_title: '<a href="%{author_path}">%{author_name}</a> quiere que la invites a ser coautora del aporte "<a href="%{resource_path}">%{resource_title}</a>".'
+        coauthor_rejected_invite:
+          notification_title: '<a href="%{coauthor_path}">%{coauthor_name}</a> ha rechazado tu invitación para ser coautora del aporte "<a href="%{resource_path}">%{resource_title}</a>".'
+        collaborative_draft_access_rejected:
+          email_outro: 'Has recibido esta notificación porque has contribuido en el aporte "<a href="%{resource_url}">%{resource_title}</a>".'
+        collaborative_draft_access_requested:
+          email_outro: 'Has recibido esta notificación porque has contribuido en el aporte "<a href="%{resource_url}">%{resource_title}</a>".'
+        collaborative_draft_access_requester_accepted:
+          email_outro: 'Has recibido esta notificación porque has solicitado contribuir en el aporte "<a href="%{resource_url}">%{resource_title}</a>".'
+        collaborative_draft_access_requester_rejected:
+          email_outro: 'Has recibido esta notificación porque has solicitado contribuir en el aporte "<a href="%{resource_url}">%{resource_title}</a>".'
+        creation_enabled:
+          email_intro: '¡Ahora puedes crear nuevos aportes en %{participatory_space_title}! Empieza a participar en esta página:'
+          email_subject: 'Los aportes ya están disponibles en %{participatory_space_title}'
+          notification_title: 'Ahora puedes presentar <a href="%{resource_path}">nuevos aportes</a> en <a href="%{participatory_space_url}">%{participatory_space_title}</a>.'
+        liking_enabled:
+          email_intro: 'Puedes dar "Me gusta" a los aportes en %{participatory_space_title}. Empieza a participar en esta página:'
+          email_subject: 'La opción de dar "Me gusta" a los aportes de %{participatory_space_title} ha empezado'
+          notification_title: 'Ya puedes empezar a <a href="%{resource_path}">dar "Me gusta" a los aportes</a> en <a href="%{participatory_space_url}">%{participatory_space_title}</a>.'
+        proposal_mentioned:
+          email_intro: 'Tu aporte "%{mentioned_proposal_title}" se ha mencionado <a href="%{resource_url}"> en este espacio</a> en los comentarios.'
+          email_outro: 'Has recibido esta notificación porque presentaste el aporte "%{resource_title}".'
+          email_subject: 'Tu aporte "%{mentioned_proposal_title}" ha sido mencionado'
+          notification_title: 'Tu aporte "%{mentioned_proposal_title}" se ha mencionado <a href="%{resource_path}">en este espacio</a> en los comentarios.'
+        proposal_merged:
+          email_intro: 'Una administradora ha fusionado tu aporte "%{resource_title}" con otro, puedes comprobarlo en esta página:'
+          email_outro: Recibiste esta notificación porque eres la autora del aporte.
+          email_subject: 'El aporte "%{resource_title}" se ha fusionado con otro'
+        proposal_published:
+          email_intro: '%{author_name} %{author_nickname}, a quien sigues, ha publicado un nuevo aporte llamado "%{resource_title}". Échale un vistazo y contribuye:'
+          email_subject: 'Nuevo aporte "%{resource_title}" de %{author_nickname}'
+          notification_title: 'El aporte <a href="%{resource_path}">%{resource_title}</a> ha sido publicado por <a href="%{author_path}">%{author_name} %{author_nickname}</a>.'
+        proposal_published_for_space:
+          email_intro: 'El aporte "%{resource_title}" se ha añadido en el espacio "%{participatory_space_title}", que estás siguiendo.'
+          email_subject: 'Nuevo aporte "%{resource_title}" añadido a %{participatory_space_title}'
+          notification_title: '%{author} ha añadido el aporte <a href="%{resource_path}">%{resource_title}</a> a %{participatory_space_title}.'
+          notification_title_official: 'Se ha añadido el aporte oficial <a href="%{resource_path}">%{resource_title}</a> en %{participatory_space_title}.'
+        proposal_state_changed:
+          affected_user:
+            email_intro: 'El aporte "%{resource_title}" ha cambiado su estado a "%{state}". Puedes leer la respuesta en esta página:'
+            email_outro: 'Has recibido esta notificación porque presentaste el aporte "%{resource_title}".'
+            email_subject: 'Tu aporte ha cambiado su estado (%{state})'
+            notification_title: 'Tu aporte <a href="%{resource_path}">%{resource_title}</a> ha cambiado su estado a "%{state}".'
+          follower:
+            email_intro: 'El aporte "%{resource_title}" ha cambiado su estado a "%{state}". Puedes leer la respuesta en esta página:'
+            email_subject: 'Un aporte que sigues ha cambiado su estado (%{state})'
+            notification_title: 'El aporte <a href="%{resource_path}">%{resource_title}</a> ha cambiado su estado a "%{state}".'
+        proposal_update_taxonomies:
+          email_intro: 'Una administradora ha actualizado las taxonomías de tu aporte "%{resource_title}", puedes comprobarlo en esta página:'
+          email_outro: Recibiste esta notificación porque eres la autora del aporte.
+          email_subject: 'Se han actualizado las taxonomías del aporte %{resource_title}'
+        rejected_coauthorship:
+          notification_title: 'Has rechazado la invitación de <a href="%{author_path}">%{author_name}</a> para convertirte en coautora del aporte "<a href="%{resource_path}">%{resource_title}</a>".'
+        voting_enabled:
+          email_intro: '¡Puedes votar aportes en %{participatory_space_title}! Empieza a participar en esta página:'
+          email_subject: 'La recogida de apoyos a los aportes recogidos en "%{participatory_space_title}" ha empezado'
+          notification_title: 'Ya puedes empezar a <a href="%{resource_path}">apoyar aportes</a> en <a href="%{participatory_space_url}">%{participatory_space_title}</a>'
+      reports:
+        parent_hidden:
+          email_intro: "Tu %{resource_type} ya no está visible.<br>\nEsto ocurre porque el aporte, el encuentro, el debate o el comentario al que respondiste ha sido moderado. Si vuelve a estar disponible, su comentario se restaurará automáticamente."
+          notification_title: "Tu %{resource_type} ya no está visible.<br>\nEsto ocurre porque el aporte, el encuentro, el debate o el comentario al que respondiste ha sido moderado. Si vuelve a estar disponible, su comentario se restaurará automáticamente.\n<i>%{resource_content}</i>"
+    filters:
+      linked_classes:
+        proposal: Aportes
+    gamification:
+      badges:
+        accepted_proposals:
+          conditions:
+            - Elige el espacio de participación con la creación de aportes habilitada de tu interés
+            - Intenta hacer aportes que se puedan realizar. De esta manera es más probable que sean aceptados.
+          description: Este distintivo se otorga cuando participes activamente con nuevos aportes y estos sean aceptados.
+          description_another: 'Esta participante ha conseguido %{score} aportes aceptados.'
+          description_own: '%{score} de tus aportes han sido aceptados.'
+          name: Aportes aceptados
+          next_level_in: '¡Consigue que se aprueben %{score} aportes más para alcanzar el siguiente nivel!'
+          unearned_another: Esta participante aún no ha conseguido que se acepte ninguno de sus aportes.
+          unearned_own: Aún no tienes ningún aporte aceptado.
+        proposal_votes:
+          conditions:
+            - Navega y dedica un tiempo leyendo los aportes de otras personas
+            - Apoya los aportes con los que estés de acuerdo o que encuentres interesantes
+          description: Esta insignia se concede cuando se apoyan aportes de otras personas.
+          description_another: 'Esta participante ha apoyado %{score} aportes.'
+          description_own: 'Has dado apoyo a %{score} aportes.'
+          name: Apoyos a aportes
+          next_level_in: '¡Apoya %{score} aportes más para alcanzar el siguiente nivel!'
+          unearned_another: Esta participante aún no ha apoyado ningún aporte.
+          unearned_own: Todavía no has dado apoyo a ningún aporte.
+        proposals:
+          conditions:
+            - Elige el espacio de participación con la creación de aportes habilitada que sea de tu interés
+            - Crea un nuevo aporte
+          description: Este distintivo se otorga cuando participas activamente con nuevos aportes.
+          description_another: 'Esta participante ha creado %{score} aportes.'
+          description_own: 'Has creado %{score} aportes.'
+          name: Aportes
+          next_level_in: '¡Crea %{score} aportes más para alcanzar el siguiente nivel!'
+          unearned_another: Esta participante no ha creado ningún aporte todavía.
+          unearned_own: Aún no has creado ningún aporte.
+    help:
+      main_topic:
+        default_page:
+          content: '<p>En %{organization} puedes participar y decidir sobre diferentes temas, a través de los espacios que ves en el menú superior: Procesos, Asambleas, Iniciativas, Consultas.</p> <p>Dentro de cada uno encontrarás diferentes opciones para participar: hacer aportes (individualmente o con otras personas), tomar parte en debates, priorizar proyectos a ejecutar, asistir a encuentros presenciales y otras acciones.</p>'
+    meetings:
+      actions:
+        invalid_destroy:
+          proposals_count:
+            one: 'El encuentro no se puede eliminar porque tiene %{count} aporte asociado:'
+            other: 'El encuentro no se puede eliminar porque tiene %{count} aportes asociados:'
+    notifications_settings:
+      show:
+        assigned_to_proposal: Quiero recibir un correo electrónico cuando alguien me asigne un aporte para evaluar
+        own_activity: Mi propia actividad, como cuando alguien comenta en mi aporte o me menciona
+    open_data:
+      help:
+        debate_comments:
+          commentable_type: La tipología de aquello sobre lo que se realizó el comentario (si fue un resultado, un aporte, etc.)
+        meeting_comments:
+          commentable_type: La tipología de aquello sobre lo que se realizó el comentario (si fue un resultado, un aporte, etc.)
+        meetings:
+          related_proposals: Los aportes relacionados con este encuentro
+        post_comments:
+          commentable_type: La tipología de aquello sobre lo que se realizó el comentario (si fue un resultado, un aporte, etc.)
+        projects:
+          related_proposal_titles: Los títulos de los aportes relacionados
+          related_proposal_urls: Las URL de los aportes relacionados
+          related_proposals: Los aportes relacionados con este proyecto
+        proposal_comments:
+          commentable_type: La tipología de aquello sobre lo que se realizó el comentario (si fue un resultado, un aporte, etc.)
+        proposals:
+          address: La dirección del aporte en caso de que este tenga una ubicación física
+          answer: La respuesta al aporte en el caso de que se haya respondido
+          answered_at: La fecha en que se respondió este aporte
+          attachments: El número de archivos adjuntos que tiene este aporte
+          author: Los datos de autoría de este aporte
+          body: La descripción del aporte
+          coauthorships_count: El número de coautorias que el aporte representa
+          comments: El número de comentarios que tiene este aporte
+          component: El componente al que pertenece este aporte
+          cost: El coste total que representa el aporte en cuestión
+          cost_report: Un informe de los costes que representa el aporte
+          created_at: La fecha en la que se creó el aporte
+          created_in_meeting: Si el aporte se ha elaborado en un encuentro
+          execution_period: El período de ejecución del aporte, de principio a fin
+          follows_count: El número de seguidoras que tiene este aporte
+          id: El identificador único del aporte
+          is_amend: Si este aporte es una enmienda a otro aporte o no
+          latitude: La latitud del aporte en caso de que este tenga una ubicación física
+          likes: 'El número de "Me gusta" que tiene este aporte'
+          longitude: La longitud del aporte en caso de que este tenga una ubicación física
+          meeting_urls: Las URL de los encuentros de los que resultó o se debatió este aporte
+          original_proposal: La referencia del aporte original en el caso de que se trate de una enmienda
+          published_at: La fecha en que se publicó este aporte
+          related_proposals: Los aportes relacionados con este aporte
+          state: 'El estado de este aporte (por ejemplo, "Aceptado")'
+          state_published_at: Un sello de tiempo del momento en que se publicó el estado del aporte
+          taxonomies: Las taxonomías a las que pertenece este aporte
+          title: El título del aporte
+          updated_at: La fecha de última actualización del aporte
+          url: La URL donde se puede encontrar este aporte
+          votes: El número de apoyos que tiene este aporte
+          withdrawn: Si este aporte fue retirado o no
+          withdrawn_at: Cuándo fue retirado este aporte
+        result_comments:
+          commentable_type: La tipología de aquello sobre lo que se realizó el comentario (si fue un resultado, un aporte, etc.)
+        results:
+          proposal_urls: Las URL de los aportes que se incluyen en este resultado
+        taxonomies:
+          taxonomizations_count: El recuento de los recursos (debates, proyectos, aportes, encuentros, resultados, etc.) que utilizan esta taxonomía
+      index:
+        explanation:
+          body_1: 'Estos archivos son conjuntos de datos exportados desde los procesos participativos de %{organization_name}, como aportes, comentarios y reuniones. Se proporcionan datos crudos y estructurados que pueden ser utilizados para el análisis, la investigación o la integración con otras herramientas. Los datos se actualizan automáticamente cada 24 horas, para asegurar tener acceso a la información más reciente posible.'
+        how_to:
+          step_3:
+            body_html: "<ul>\n<li><b>Filtrar y ordenar</b>: En las aplicaciones de hoja de cálculo, puedes filtrar y ordenar los datos para centrarte en subconjuntos específicos de información.</li>\n<li><b>Análisis</b>: Utiliza los datos para realizar varios análisis, como contar el número de aportes, analizar tendencias en los comentarios o evaluar la participación en las reuniones.</li>\n<li><b>Visualización</b>: Puedes crear gráficos, gráficos y otras visualizaciones para ayudar a interpretar los datos.</li>\n</ul>"
+    pages:
+      home:
+        extended:
+          proposals: Aportes
+          proposals_explanation: Haz aportes, apoya los existentes y promueve los cambios que deseas ver.
+    participatory_processes:
+      content_blocks:
+        democratic_quality_stats:
+          automatic_metrics:
+            indicators:
+              influence_tooltip: Este indicador mide el nivel de influencia ciudadana en los aportes aceptados y los resultados del proceso.
+              traceability_tooltip: Este indicador mide la transparencia y trazabilidad del proceso participativo. Refleja con qué facilidad la ciudadanía pueden seguir la evolución de los aportes y verificar las acciones institucionales a través de los registros publicados.
+    participatory_spaces:
+      highlighted_proposals:
+        see_all: Ver todos los aportes
+    proposals:
+      actions:
+        answer_proposal: Responder al aporte
+        edit_proposal: Editar aporte
+        new: Nuevo aporte
+        show: Ver aporte
+      answers:
+        accepted: Aceptado
+        not_answered: No contestado
+        rejected: Rechazado
+        withdrawn: Retirado
+      application_helper:
+        filter_state_values:
+          not_answered: No contestado
+        filter_type_values:
+          all: Todos
+          proposals: Aportes
+      collaborative_drafts:
+        collaborative_draft:
+          publish:
+            irreversible_action_modal:
+              body: Después de publicar el borrador como un aporte, dejará de ser editable. El aporte no aceptará nuevas autoras o contribuciones.
+              ok: Publicar como un aporte
+            success: Borrador colaborativo publicado correctamente como un aporte.
+        show:
+          final_proposal: aporte final
+          final_proposal_help_text: Este borrador está terminado. Consulta el aporte definitivo
+          info-message: 'Este es un <strong>borrador colaborativo</strong> para un aporte. Esto significa que puedes ayudar a sus autoras a dar forma al aporte usando la sección de comentarios que se encuentra debajo o mejorarlo directamente solicitando acceso para editarlo. Una vez que las autoras te den acceso, podrás realizar cambios en este borrador.'
+          published_proposal: aporte publicado
+      content_blocks:
+        highlighted_proposals:
+          name: Aportes
+      create:
+        error: Se ha producido un error al guardar el aporte.
+        success: Aporte creado correctamente. Guardado como borrador.
+      creation:
+        imported_text: Se convirtió en este aporte
+        merged_text: Se convirtió en este aporte
+        splitted_text: Se convirtió en este aporte
+        text: Se creó este aporte
+      destroy_draft:
+        success: El borrador del aporte fue eliminado correctamente.
+      exit_modal:
+        message: 'Has de dar %{number} apoyo/s más entre los diferentes aportes para que tus apoyos sean tenidos en cuenta.'
+      invite_coauthors:
+        create:
+          success: 'Se ha invitado con éxito a %{author_name} para ser coautor/a del aporte.'
+      last_activity:
+        new_proposal: 'Nuevo aporte:'
+        proposal_updated: 'Aporte actualizado:'
+      models:
+        proposal:
+          fields:
+            official_proposal: Aporte oficial
+      new:
+        limit_reached: No puedes crear nuevos aportes porque has superado el límite.
+      proposal_votes:
+        create:
+          error: Se ha producido un error al apoyar el aporte.
+      proposals:
+        edit:
+          title: Editar aporte
+        edit_draft:
+          discard_confirmation: ¿Estás seguro que quieres descartar este borrador de aporte?
+          title: Editar el borrador del aporte
+        filters:
+          my_proposals: Mis aportes
+          related_to: Relacionados con
+          voted: Apoyados
+        index:
+          click_here: Ver todos los aportes
+          count:
+            one: '%{count} aporte'
+            other: '%{count} aportes'
+          new_proposal: Nuevo aporte
+          see_all: Ver todos los aportes
+          see_all_withdrawn: Ver todos los aportes retirados
+          text_banner: 'Estás viendo la lista de aportes retirados por sus autoras. %{go_back_link}.'
+        new:
+          title: Crear un nuevo aporte
+        orders:
+          label: 'Ordenar aportes por:'
+          most_commented: Más comentados
+        preview:
+          announcement_body: Tu aporte ha sido guardado como borrador. Debe ser publicado para que aparezca en el sitio.
+          announcement_title: Tu aporte aún no ha sido publicado
+          modify: Modificar el aporte
+          proposal_edit_before_minutes:
+            one: Podrás editar este aporte durante el primer minuto posterior a su publicación. Una vez que pase este tiempo, ya no podrás editarlo.
+            other: 'Podrás editar este aporte durante los primeros %{count} minutos después que se publique. Una vez que pase este tiempo, no podrás editar el aporte.'
+          publish: Enviar aporte
+          title: Publicar tu aporte
+        proposals:
+          empty: Aún no hay ningún aporte.
+          empty_filters: No hay ningún aporte con este criterio.
+        show:
+          link_to_collaborative_draft_help_text: Este aporte es el resultado de un borrador colaborativo. Revisa el historial
+          link_to_promoted_emendation_help_text: Este aporte proviene de una enmienda
+          link_to_proposal_from_emendation_text: Ver el aporte
+          proposal_accepted_reason: 'Este aporte ha sido aceptado porque:'
+          proposal_in_evaluation_reason: Se está evaluando este aporte
+          proposal_rejected_reason: 'Este aporte ha sido rechazado porque:'
+          withdraw_btn_hint: Puedes retirar tu aporte si cambias de opinión, siempre que no haya recibido ningún apoyo. El aporte no se eliminará, aparecerá en la lista de aportes retirados.
+          withdraw_confirmation_html: '¿Seguro que quieres retirar este aporte?<br><br><strong>Esta acción no se puede deshacer!</strong>'
+        update:
+          title: Actualizar aporte
+        voting_rules:
+          already_vote:
+            description: 'Recuerda que aún has de dar %{number} apoyo/s más entre los diferentes aportes para que tus apoyos sean tenidos en cuenta.'
+            see_other_proposals: Ver otros aportes
+          can_accumulate_votes_beyond_threshold:
+            description: 'Cada aporte puede acumular más de %{limit} apoyos'
+          minimum_votes_per_user:
+            description: 'Tienes que repartir un mínimo de %{votes} apoyos entre diferentes aportes para que tus apoyos sean tenidos en cuenta.'
+          proposal_limit:
+            description: 'Puedes crear hasta %{limit} aportes.'
+          threshold_per_proposal:
+            description: 'Para que un aporte se valide, debe recibir %{limit} apoyos.'
+          vote_limit:
+            description: 'Puedes apoyar hasta %{limit} aportes.'
+        wizard_aside:
+          back_from_step_1: Volver a aportes
+        wizard_steps:
+          step_1: Crear tu aporte
+          step_2: Publica tu aporte
+          title: Pasos de creación de un aporte
+      proposals_picker:
+        choose_proposals: Elegir aportes
+        no_proposals: No hay aportes que coincidan con tu criterio de búsqueda o no hay ningún aporte.
+      publish:
+        error: Se ha producido un error al publicar el aporte.
+        success: Aporte publicado correctamente.
+      publish_answers:
+        success: Las respuestas a los aportes han sido publicadas correctamente.
+      update:
+        error: Se ha producido un error al guardar el aporte.
+        success: Aporte actualizado correctamente.
+      withdraw:
+        errors:
+          has_votes: Este aporte no puede ser retirado porque ya tiene apoyos.
+    resource_autocomplete:
+      help: Escribe aquí para buscar entre los aportes
+    resource_links:
+      copied_from_component:
+        proposal_proposal: Aportes relacionados
+      included_proposals:
+        project_proposal: Aportes incluidos en este proyecto
+        proposal_project: 'Aporte vinculado a estos proyectos:'
+        proposal_result: 'Aporte vinculado a estos resultados:'
+        result_proposal: Aportes incluidos en este resultado
+      proposals_from_meeting:
+        meeting_proposal: 'Aportes relacionados:'
+    sortitions:
+      sortitions:
+        count:
+          proposals_count:
+            one: 1 aporte
+            other: '%{count} aportes'
+        linked_sortitions:
+          selected_proposals: Aportes seleccionados
+        results_count:
+          count:
+            one: Aporte seleccionado
+            other: Aportes seleccionados
+        show:
+          candidate_proposal_ids: Orden e IDs de los aportes del sorteo
+          candidate_proposals_info: 'El sorteo se realizó entre los siguientes aportes (%{taxonomy_labels}), con los siguientes ID (en negrita los aportes seleccionados)'
+          introduction: 'Esta página contiene los resultados del sorteo %{reference}. Mediante esta clasificación, %{target_items} número de resultados se han seleccionado al azar y con una distribución de probabilidad igual del conjunto de aportes que se muestran a continuación. Junto con los resultados, la información que se muestra en esta página proporciona toda la información necesaria para maximizar las garantías y reproducir los resultados. La clave de la calidad de esta clasificación es la doble aleatoriedad proporcionada por el lanzamiento de un dado (verificado por testigos) y el momento preciso del sorteo que proporciona la entrada para un algoritmo que genera una selección aleatoria. La semilla de tiempo del sorteo es tan precisa (segundos) que es imposible de controlar por los seres humanos, proporcionando así una doble entrada "incontrolable" para garantizar un resultado justo.'
+          proposals_selected_by_sortition: Aportes seleccionados por sorteo
+        sortition:
+          selected_proposals:
+            one: 1 aporte seleccionado
+            other: aportes seleccionados
+    statistics:
+      participants_count_tooltip: El número de usuarios únicos que han interactuado en este espacio presentando aportes, asistiendo a encuentros, dando apoyo a aportes, votando a proyectos o uniéndose a debates.
+      participatory_space_proposals_count: Aportes
+      proposals_accepted: Aportes aceptados
+      proposals_count: Aportes
+      proposals_count_tooltip: El número total de aportes presentados y apoyos recogidos en ellos.
+    welcome_notification:
+      default_body: '<p>¡Hola {{name}}, gracias por unirte a {{organization}} te damos la bienvenida!</p><ul><li>Si quieres hacerte una idea rápida de qué puedes hacer, echa un vistazo a la <a href="{{help_url}}">Sección de ayuda</a>.</li><li>Una vez la hayas leído recibirás tu primera insignia. Aquí encontrarás un <a href="{{badges_url}}">listado de todas las insignias</a>que puedes conseguir participando en {{organization}}</li><li>. Para terminar, pero no por ello menos importante, únete a otras personas, comparte con ellas de estar comprometida y de participar en {{organization}}. Haz aportes, comentarios, debate, piensa en cómo contribuir a un bien común, aporta argumentos para tratar de convencer, escucha y lee para convencerte, expresa tus ideas de manera concreta y directa, responde con paciencia y decisión, defiende tus ideas y permanece abierta de mente para colaborar y unirte a las ideas de otra gente.</li></ul>'

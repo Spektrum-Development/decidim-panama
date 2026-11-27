@@ -1,0 +1,433 @@
+# Decidim's proposals wording in English: "submission", not "proposal" (D228), mounted into Decidim's
+# config/locales beside dbc_wording.es.yml. Only the keys that change are here; everything else is
+# Decidim's own. Taken from Decidim 0.31.6's own English for every string a participant can see; the
+# admin panel keeps "proposal" (admin.* and admin_log.* keys are left out on purpose). Re-check
+# against Decidim's own file on each upgrade (D215): a key renamed upstream silently goes back to
+# "proposal".
+#
+# Also the labels for a document awaiting a staff check (dbc.document_hold, D227, document_hold.rb).
+en:
+  activemodel:
+    attributes:
+      close_meeting:
+        proposal_ids: Submissions created in the meeting
+    models:
+      decidim/accountability/proposal_linked_event: Submission included in a result
+      decidim/proposals/creation_enabled_event: Submission creation enabled
+      decidim/proposals/liking_enabled_event: Submission liking enabled
+      decidim/proposals/proposal_mentioned_event: Submission mentioned
+      decidim/proposals/publish_proposal_event: Submission published
+      decidim/proposals/voting_enabled_event: Submission voting enabled
+  activerecord:
+    models:
+      decidim:
+        accountability:
+          result:
+            proposal_ids: 'It was included in this submission: %{link}'
+        proposals:
+          proposal:
+            budget_text: 'The submission <span class="resource-link">%{link} was created</span>'
+            import_from_proposal_text: 'It became this submission: %{link}'
+            import_to_proposal_text: 'This submission <span "resource-link">%{link} was created</span>'
+            merge_from_proposal_text: 'It became this submission: %{link}'
+            merge_to_proposal_text: 'This submission was created: %{link}'
+            split_from_proposal_text: 'It became this submission: %{link}'
+            split_to_proposal_text: 'This submission was created: %{link}'
+      decidim/proposals/proposal:
+        one: Submission
+        other: Submissions
+  dbc:
+    document_hold:
+      awaiting: 'Awaiting a check: the team will publish a checked copy'
+      checked: 'Checked: the team published a checked copy'
+      see_checked_copy: See the checked copy
+  decidim:
+    amendments:
+      promoted:
+        error: There was a problem publishing the amendment as a new submission.
+        success: The amendment has been successfully published as a new submission.
+    budgets:
+      vote_reminder_mailer:
+        vote_reminder:
+          email_outro: 'Please remember to complete the vote. To vote, you must first select the submission or submissions you want to vote on and then confirm your vote with the "Vote" button.'
+    components:
+      component_order_selector:
+        order:
+          proposal: Submission
+    download_your_data:
+      help:
+        comments:
+          commentable_type: The type of the commentable (if it was a result, a submission, etc.)
+      show:
+        explanation:
+          body_1: These files are datasets exported from your activity in this platform, such as submissions, or comments. They provide raw, structured data that can be used for analysis, research, or integration with other tools
+        proposal_comments: Submission comments export
+        proposals: Submissions export
+    events:
+      accountability:
+        proposal_linked:
+          email_intro: 'The submission "%{proposal_title}" has been included in a result. You can see it from this page:'
+          notification_title: 'The submission <a href="%{proposal_path}">%{proposal_title}</a> has been included in the <a href="%{resource_path}">%{resource_title}</a> result.'
+        result_progress_updated:
+          email_intro: 'The result "%{resource_title}", which includes the submission "%{proposal_title}", is now %{progress}% complete. You can see it from this page:'
+          email_outro: 'You have received this notification because you are following "%{proposal_title}", and this submission is included in the result "%{resource_title}". You can stop receiving notifications following the previous link.'
+          notification_title: 'The result <a href="%{resource_path}">%{resource_title}</a>, which includes the submission <a href="%{proposal_path}">%{proposal_title}</a>, is now %{progress}% complete.'
+      proposals:
+        accepted_coauthorship:
+          notification_title: 'You have been added as a co-author of the submission <a href="%{resource_path}">%{resource_title}</a>.'
+        coauthor_accepted_invite:
+          notification_title: '<a href="%{coauthor_path}">%{coauthor_name}</a> has accepted your invitation to become a co-author of the submission <a href="%{resource_path}">%{resource_title}</a>.'
+        coauthor_invited:
+          email_intro: 'You have been invited to be a co-author of the submission "%{resource_title}". You can accept or decline the invitation in this page:'
+          email_outro: You have received this notification because the author of the submission wants to recognize your contributions by becoming a co-author.
+          email_subject: 'You have been invited to be a co-author of the submission "%{resource_title}"'
+          notification_title: '<a href="%{author_path}">%{author_name}</a> would like to invite you as a co-author of the submission <a href="%{resource_path}">%{resource_title}</a>.'
+        coauthor_rejected_invite:
+          notification_title: '<a href="%{coauthor_path}">%{coauthor_name}</a> has declined your invitation to become a co-author of the submission <a href="%{resource_path}">%{resource_title}</a>.'
+        creation_enabled:
+          email_intro: 'You can now create new submissions in %{participatory_space_title}! Start participating in this page:'
+          email_subject: 'Submissions now available in %{participatory_space_title}'
+          notification_title: 'You can now put forward <a href="%{resource_path}">new submissions</a> in <a href="%{participatory_space_url}">%{participatory_space_title}</a>.'
+        liking_enabled:
+          email_intro: 'You can like submissions in %{participatory_space_title}! Start participating in this page:'
+          email_subject: 'Submissions liking has started for %{participatory_space_title}'
+          notification_title: 'You can now start <a href="%{resource_path}">liking submissions</a> in <a href="%{participatory_space_url}">%{participatory_space_title}</a>.'
+        proposal_mentioned:
+          email_intro: 'Your submission "%{mentioned_proposal_title}" has been mentioned <a href="%{resource_url}">in this space</a> in the comments.'
+          email_subject: 'Your submission "%{mentioned_proposal_title}" has been mentioned'
+          notification_title: 'Your submission "%{mentioned_proposal_title}" has been mentioned <a href="%{resource_path}">in this space</a> in the comments.'
+        proposal_merged:
+          email_intro: 'An admin has merged your submission "%{resource_title}", check it out in this page:'
+          email_outro: You have received this notification because you are the author of the submission.
+          email_subject: 'The %{resource_title} submission has been merged'
+          notification_title: 'The <a href="%{resource_path}">%{resource_title}</a> submission has been merged by an admin.'
+        proposal_published:
+          email_intro: '%{author_name} %{author_nickname}, who you are following, has published a new submission called "%{resource_title}". Check it out and contribute:'
+          email_subject: 'New submission "%{resource_title}" by %{author_nickname}'
+          notification_title: 'The <a href="%{resource_path}">%{resource_title}</a> submission was published by <a href="%{author_path}">%{author_name} %{author_nickname}</a>.'
+        proposal_published_for_space:
+          email_intro: 'The submission "%{resource_title}" has been added to "%{participatory_space_title}" that you are following.'
+          email_subject: 'New submission "%{resource_title}" added to %{participatory_space_title}'
+          notification_title: 'The submission <a href="%{resource_path}">%{resource_title}</a> has been added to %{participatory_space_title} by %{author}.'
+          notification_title_official: 'The official submission <a href="%{resource_path}">%{resource_title}</a> has been added to %{participatory_space_title}.'
+        proposal_state_changed:
+          affected_user:
+            email_intro: 'The submission "%{resource_title}" has changed its state to "%{state}". You can read the answer in this page:'
+            email_subject: 'Your submission has changed its state (%{state})'
+            notification_title: 'Your submission <a href="%{resource_path}">%{resource_title}</a> has changed its state to "%{state}".'
+          follower:
+            email_intro: 'The submission "%{resource_title}" has changed its state to "%{state}". You can read the answer in this page:'
+            email_subject: 'A submission you are following has changed its state (%{state})'
+            notification_title: 'The <a href="%{resource_path}">%{resource_title}</a> submission has changed its state to "%{state}".'
+        proposal_update_taxonomies:
+          email_intro: 'An admin has updated the taxonomies of your submission "%{resource_title}", check it out in this page:'
+          email_outro: You have received this notification because you are the author of the submission.
+          email_subject: 'The %{resource_title} submission taxonomies have been updated'
+          notification_title: 'The <a href="%{resource_path}">%{resource_title}</a> submission taxonomies have been updated by an admin.'
+        rejected_coauthorship:
+          notification_title: 'You have declined the invitation from <a href="%{author_path}">%{author_name}</a> to become a co-author of the submission <a href="%{resource_path}">%{resource_title}</a>.'
+        voting_enabled:
+          email_intro: 'You can vote submissions in %{participatory_space_title}! Start participating in this page:'
+          email_subject: 'Submission voting has started for %{participatory_space_title}'
+          notification_title: 'You can now start <a href="%{resource_path}">voting submissions</a> in <a href="%{participatory_space_url}">%{participatory_space_title}</a>'
+      reports:
+        parent_hidden:
+          email_intro: "Your %{resource_type} is no longer visible.<br>\nThis happened because the submission, meeting, debate or comment you replied to has been moderated. If it becomes available again, your comment will be automatically restored."
+          notification_title: "Your %{resource_type} is no longer visible.<br>\nThis happened because the submission, meeting, debate or comment you replied to has been moderated. If it becomes available again, your comment will be automatically restored.\n<i>%{resource_content}</i>"
+    filters:
+      linked_classes:
+        proposal: Submissions
+    gamification:
+      badges:
+        accepted_proposals:
+          conditions:
+            - Choose the participation space of your interest with submission for submissions enabled
+            - Try to make submissions that can be carried out. This way they are more likely to be accepted.
+          description: This badge is granted when you actively participate with new submissions and these are accepted.
+          description_another: 'This participant had %{score} accepted submissions.'
+          description_own: 'You got %{score} submissions accepted.'
+          name: Accepted submissions
+          next_level_in: 'Get %{score} more submissions accepted to reach the next level!'
+          unearned_another: This participant has not yet had any accepted submissions.
+          unearned_own: You got no submissions accepted yet.
+        proposal_votes:
+          conditions:
+            - Browse and spend some time reading other people's submissions
+            - Vote to the submissions you like or find interesting
+          description: This badge is granted when you vote other people's submissions.
+          description_another: 'This participant has voted to %{score} submissions.'
+          description_own: 'You have voted to %{score} submissions.'
+          name: Submission votes
+          next_level_in: 'Vote to %{score} more submissions to reach the next level!'
+          unearned_another: This participant has not voted to any submissions yet.
+          unearned_own: You have voted to no submissions yet.
+        proposals:
+          conditions:
+            - Choose the participation space of your interest with submission for submissions enabled
+            - Create a new submission
+          description: This badge is granted when you actively participate with new submissions.
+          description_another: 'This participant has created %{score} submissions.'
+          description_own: 'You have created %{score} submissions.'
+          name: Submissions
+          next_level_in: 'Create %{score} more submissions to reach the next level!'
+          unearned_another: This participant has not created any submissions yet.
+          unearned_own: You have created no submissions yet.
+    help:
+      main_topic:
+        default_page:
+          content: '<p>In %{organization} you can participate and decide on different topics, through the spaces you see in the top menu: Processes, Assemblies, Initiatives, Consultations.</p> <p>Within each one you will find different options to participate: make submissions - individually or with other people-, take part in debates, prioritize projects to implement, attend face-to-face meetings and other actions.</p>'
+    meetings:
+      actions:
+        invalid_destroy:
+          proposals_count:
+            one: 'The meeting cannot be destroyed because it has %{count} submission associated to it:'
+            other: 'The meeting cannot be destroyed because it has %{count} submissions associated to it:'
+    notifications_settings:
+      show:
+        assigned_to_proposal: I want to receive an email when someone assigns me a submission to evaluate
+        own_activity: My own activity, like when someone comments in my submission or mentions me
+    open_data:
+      help:
+        debate_comments:
+          commentable_type: The type of the commentable (if it was a result, a submission, etc.)
+        meeting_comments:
+          commentable_type: The type of the commentable (if it was a result, a submission, etc.)
+        meetings:
+          related_proposals: The submissions related to this meeting
+        post_comments:
+          commentable_type: The type of the commentable (if it was a result, a submission, etc.)
+        projects:
+          related_proposal_titles: The titles of the related submissions
+          related_proposal_urls: The URLs of the related submissions
+          related_proposals: The related submissions to this project
+        proposal_comments:
+          commentable_type: The type of the commentable (if it was a result, a submission, etc.)
+        proposals:
+          address: The address of the submission in case the submission has a physical location
+          answer: The answer to the submission in the case it has been answered
+          answered_at: The date when this submission was answered
+          attachments: The number of attachments this submission has
+          author: The data for the author of this submission
+          body: The submission body
+          coauthorships_count: The number of co-authorships the submission represents
+          comments: The number of comments this submission has
+          component: The component that the submission belongs to
+          cost: The total cost of the submission in question
+          cost_report: A report of costs for the submission
+          created_at: The date the submission was created
+          created_in_meeting: Whether the submission was created in a meeting
+          execution_period: The period at which the submission ran from beginning to end
+          follows_count: The number of followers this submission has
+          id: The unique identifier for the submission
+          is_amend: Wheter this submission is ammedning another submission
+          latitude: The latitude of the submission in case it has a physical location
+          likes: 'The number of likes ("likes") this submission has'
+          longitude: The longitude of the submission in case it has a physical location
+          meeting_urls: The URLs of the meetings where this submission was presented or discussed in
+          original_proposal: The reference of the original submission if this is an amendment
+          participatory_space: To which space (e.g. Participatory Process, or Assembly) this submission belongs to
+          published_at: The date when this submission was published
+          related_proposals: The submissions related to this submission
+          state: 'The status of this submission (e.g. "Accepted")'
+          state_published_at: A time stamp of the state of the submission when published
+          taxonomies: The taxonomies that this submission belongs to
+          title: The submission title
+          updated_at: The date the submission was last updated
+          url: The URL where this submission can be found
+          votes: The number of votes this submission has
+          withdrawn: Wheter this submission has been withdrawn
+          withdrawn_at: When this submission was withdrawn
+        result_comments:
+          commentable_type: The type of the commentable (if it was a result, a submission, etc.)
+        results:
+          proposal_urls: The URLs of the submissions that are included in this result
+      index:
+        explanation:
+          body_1: "These files are datasets exported from %{organization_name}'s participatory processes, such as submissions, comments, and meetings. They provide raw, structured data that can be used for analysis, research, or integration with other tools. The data is updated automatically every 24 hours, ensuring that you have access to the most recent information."
+        how_to:
+          step_3:
+            body_html: "<ul>\n  <li><b>Filtering and Sorting</b>: In spreadsheet applications, you can filter and sort the data to focus on specific subsets of information.</li>\n  <li><b>Analysis</b>: Use the data to perform various analyses, such as counting the number of submissions, analyzing trends in comments, or evaluating participation in meetings.</li>\n  <li><b>Visualization</b>: You can create charts, graphs, and other visualizations to help interpret the data.</li>\n</ul>"
+    pages:
+      home:
+        extended:
+          proposals: Submissions
+          proposals_explanation: Make submissions, support existing ones and promote the changes you want to see.
+    participatory_processes:
+      content_blocks:
+        democratic_quality_stats:
+          automatic_metrics:
+            indicators:
+              influence_tooltip: This indicator measures the level of citizen influence on the accepted submissions and the outcomes of the process.
+              traceability_tooltip: This indicator measures the transparency and traceability of the participatory process. It reflects how easily participants can follow the evolution of submissions and verify institutional actions through published records.
+    participatory_spaces:
+      highlighted_proposals:
+        see_all: See all submissions
+    proposals:
+      actions:
+        answer_proposal: Answer submission
+        edit_proposal: Edit submission
+        new: New submission
+        show: Show submission
+      application_helper:
+        filter_type_values:
+          proposals: Submissions
+      collaborative_drafts:
+        collaborative_draft:
+          publish:
+            irreversible_action_modal:
+              body: After publishing the draft as a submission, it will not be editable anymore. The submission will not accept new authors or contributions.
+              ok: Publish as a submission
+            success: Collaborative draft published successfully as a submission.
+        show:
+          final_proposal: Final submission
+          final_proposal_help_text: This draft is finished. Check out the final submission
+          info-message: 'This is a <strong>collaborative draft</strong> for a submission. This means that you can help their authors to shape the submission using the comment section below or improve it directly by requesting access to edit it. Once the authors grant you access, you will be able to make changes to this draft.'
+          published_proposal: Published submission
+      content_blocks:
+        highlighted_proposals:
+          name: Submissions
+      create:
+        error: There was a problem saving the submission.
+        success: Submission successfully created. Saved as a Draft.
+      creation:
+        imported_text: It became this submission
+        merged_text: They became this submission
+        splitted_text: It became this submission
+        text: This submission was created
+      destroy_draft:
+        success: Submission draft was successfully deleted.
+      exit_modal:
+        message: 'You have to give %{number} more votes between different submissions for your votes to be taken into account.'
+      last_activity:
+        new_proposal: 'New submission:'
+        proposal_updated: 'Submission updated:'
+      models:
+        proposal:
+          fields:
+            official_proposal: Official submission
+      new:
+        limit_reached: You cannot create new submissions since you have exceeded the limit.
+      proposal_votes:
+        create:
+          error: There was a problem voting the submission.
+      proposals:
+        edit:
+          title: Edit submission
+        edit_draft:
+          discard_confirmation: Are you sure you want to discard this submission draft?
+          title: Edit submission draft
+        filters:
+          my_proposals: My submissions
+        index:
+          click_here: See all submissions
+          count:
+            one: '%{count} submission'
+            other: '%{count} submissions'
+          new_proposal: New submission
+          see_all: See all submissions
+          see_all_withdrawn: See all withdrawn submissions
+          text_banner: 'You are viewing the list of submissions withdrawn by their authors. %{go_back_link}.'
+        new:
+          title: Create new submission
+        orders:
+          label: 'Order submissions by:'
+        preview:
+          announcement_body: Your submission has been saved as a draft. It needs to be published for it to appear on the site.
+          announcement_title: Your submission has not yet been published
+          modify: Modify the submission
+          proposal_edit_before_minutes:
+            one: You will be able to edit this submission during the first minute after the submission is published. Once this time window passes, you will not be able to edit the submission.
+            other: 'You will be able to edit this submission during the first %{count} minutes after the submission is published. Once this time window passes, you will not be able to edit the submission.'
+          publish: Send submission
+          title: Publish your submission
+        proposals:
+          empty: There are no submissions yet.
+          empty_filters: There are no submissions with this criteria.
+        show:
+          link_to_collaborative_draft_help_text: This submission is the result of a collaborative draft. Review the history
+          link_to_promoted_emendation_help_text: This submission is a promoted emendation
+          link_to_proposal_from_emendation_text: See the submission
+          proposal_accepted_reason: 'This submission has been accepted because:'
+          proposal_in_evaluation_reason: This submission is being evaluated
+          proposal_rejected_reason: 'This submission has been rejected because:'
+          withdraw_btn_hint: You can withdraw your submission if you change your mind, as long as you have not received any vote. The submission is not deleted, it will appear in the list of withdrawn submissions.
+          withdraw_confirmation_html: 'Are you sure you want to withdraw this submission?<br><br><strong>This action cannot be cancelled!</strong>'
+        update:
+          title: Update submission
+        voting_rules:
+          already_vote:
+            description: 'Remember that you still have to give %{number} supports between different submissions so that your supports are taken into account.'
+            see_other_proposals: See other submissions
+          can_accumulate_votes_beyond_threshold:
+            description: 'Each submission can accumulate more than %{limit} votes'
+          minimum_votes_per_user:
+            description: 'You have to distribute a minimum of %{votes} supports among different submissions so that your supports are taken into account.'
+          proposal_limit:
+            description: 'You can create up to %{limit} submissions.'
+          threshold_per_proposal:
+            description: 'In order to be validated submissions need to reach %{limit} votes.'
+          vote_limit:
+            description: 'You can support up to %{limit} submissions.'
+        wizard_aside:
+          back_from_step_1: Back to submissions
+        wizard_steps:
+          step_1: Create your submission
+          step_2: Publish your submission
+          title: Submission creation steps
+      proposals_picker:
+        choose_proposals: Choose submissions
+        no_proposals: No submissions match your search criteria or there is not any submissions.
+      publish:
+        error: There was a problem publishing the submission.
+        success: Submission successfully published.
+      publish_answers:
+        success: Submissions answers successfully published.
+      update:
+        error: There was a problem saving the submission.
+        success: Submission successfully updated.
+      update_draft:
+        success: Submission draft successfully updated.
+      withdraw:
+        errors:
+          has_votes: This submission cannot be withdrawn because it already has votes.
+    resource_autocomplete:
+      help: Type to search submissions
+    resource_links:
+      copied_from_component:
+        proposal_proposal: Related submissions
+      included_proposals:
+        project_proposal: Submissions included in this project
+        proposal_project: 'Submission appearing in these projects:'
+        proposal_result: 'Submission appearing in these results:'
+        result_proposal: Submissions included in this result
+      proposals_from_meeting:
+        meeting_proposal: 'Related submissions:'
+    sortitions:
+      sortitions:
+        count:
+          proposals_count:
+            one: 1 submission
+            other: '%{count} submissions'
+        linked_sortitions:
+          selected_proposals: Selected submissions
+        results_count:
+          count:
+            one: Selected submission
+            other: Selected submissions
+        show:
+          candidate_proposal_ids: Sortition submissions order and IDs
+          candidate_proposals_info: 'The sortition was carried out among the following submissions (%{taxonomy_labels}), with the following IDs (in bold the selected submissions)'
+          introduction: 'This page contains the results of the sortition %{reference}. By means of this sortition, %{target_items} number of results have been selected randomly and with an equal probability distribution from the set of submissions displayed bellow. Together with the results, the information displayed on this page provides all the information required to maximize guarantees and to reproduce the results. The key to the quality of this sortition is the double randomness provided by a the rolling of a dice(verified by witnesses) and the precise time of the sortition that provides input for an algorithm that generates a random selection. The time-seed for the sortition is so accurate (seconds) that it is impossible to control by humans thus providing a double "uncontrollable" input to guarantee a fair result.'
+          proposals_selected_by_sortition: Submissions selected by sortition
+        sortition:
+          selected_proposals:
+            one: submission selected
+            other: submissions selected
+    statistics:
+      participants_count_tooltip: The number of unique users who have interacted in this space by making submissions, attending meetings, voting, or joining discussions.
+      participatory_space_proposals_count: Submissions
+      proposals_accepted: Accepted Submissions
+      proposals_count: Submissions
+      proposals_count_tooltip: The total number of submissions made and votes cast on them.
+    welcome_notification:
+      default_body: '<p>Hi {{name}}, thanks for joining {{organization}} and welcome!</p><ul><li>If you want to get a quick idea of what you can do here, have a look at the <a href="{{help_url}}">Help</a> section.</li><li>Once you have read it you will get your first badge. Here is a <a href="{{badges_url}}">list of all the badges</a> you can get as you participate in {{organization}}</li><li>Last but not least, join other people, share with them the experience of being engaged and participating in {{organization}}. Make submissions, comments, debate, think about how to contribute to the common good, provide arguments to convince, listen and read to be convinced, express your ideas in a concrete and direct way, respond with patience and decision, defend your ideas and keep an open mind to collaborate and join other people''s ideas.</li></ul>'
