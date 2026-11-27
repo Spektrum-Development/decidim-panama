@@ -19,6 +19,18 @@ Decidim::Dev.dummy_app_path = File.expand_path(File.join(__dir__, ".."))
 
 require "decidim/dev/test/base_spec_helper"
 
+# Chrome 158 rejects Capybara's Storage.clearDataForOrigin call with origin "*".
+# Use the base Selenium reset, which clears cookies and storage for the current origin.
+Capybara::Selenium::Driver::ChromeDriver.class_eval do
+  def reset!
+    return unless @browser
+
+    switch_to_window(window_handles.first)
+    window_handles.slice(1..).each { |win| close_window(win) }
+    super
+  end
+end
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
