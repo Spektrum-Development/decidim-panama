@@ -1,7 +1,7 @@
 version: '3'
 services:
   app:
-    image: decidim/decidim:0.32.3
+    image: ghcr.io/spektrum-development/decidim-panama:main
     volumes:
       - .:/app
       - bundle:/usr/local/bundle
