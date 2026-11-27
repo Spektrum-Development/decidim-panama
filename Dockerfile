@@ -15,14 +15,14 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y ca-certificates c
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
 
-WORKDIR /app
+WORKDIR /code
 
 # Copy package dependencies files only to ensure maximum cache hit
-COPY ./package-lock.json /app/package-lock.json
-COPY ./package.json /app/package.json
-COPY ./packages /app/packages
-COPY ./Gemfile /app/Gemfile
-COPY ./Gemfile.lock /app/Gemfile.lock
+COPY ./package-lock.json /code/package-lock.json
+COPY ./package.json /code/package.json
+COPY ./packages /code/packages
+COPY ./Gemfile /code/Gemfile
+COPY ./Gemfile.lock /code/Gemfile.lock
 
 RUN gem install bundler:$(grep -A 1 'BUNDLED WITH' Gemfile.lock | tail -n 1 | xargs) && \
     bundle config set --deployment true && \
@@ -44,15 +44,15 @@ RUN gem install bundler:$(grep -A 1 'BUNDLED WITH' Gemfile.lock | tail -n 1 | xa
 RUN npm ci
 
 # copy the rest of files
-COPY ./app /app/app
-COPY ./bin /app/bin
-COPY ./config /app/config
-COPY ./db /app/db
-COPY ./lib /app/lib
-COPY ./public/*.* /app/public/
-COPY ./config.ru /app/config.ru
-COPY ./Rakefile /app/Rakefile
-COPY ./postcss.config.js /app/postcss.config.js
+COPY ./code /code/app
+COPY ./bin /code/bin
+COPY ./config /code/config
+COPY ./db /code/db
+COPY ./lib /code/lib
+COPY ./public/*.* /code/public/
+COPY ./config.ru /code/config.ru
+COPY ./Rakefile /code/Rakefile
+COPY ./postcss.config.js /code/postcss.config.js
 
 # Compile assets with Webpacker or Sprockets. Executing "assets:precompile"
 # also runs "webpacker:compile".
@@ -87,17 +87,17 @@ ENV RAILS_ENV=production
 
 # Add user
 RUN addgroup --system --gid 1000 app && \
-    adduser --system --uid 1000 --home /app --group app
+    adduser --system --uid 1000 --home /code --group app
 
-WORKDIR /app
-COPY ./entrypoint.sh /app/entrypoint.sh
+WORKDIR /code
+COPY ./entrypoint.sh /code/entrypoint.sh
 COPY --from=builder --chown=app:app /usr/local/bundle/ /usr/local/bundle/
-COPY --from=builder --chown=app:app /app /app
-RUN mkdir -p /app/tmp/pids && chown app:app /app/tmp /app/tmp/pids
+COPY --from=builder --chown=app:app /code /code
+RUN mkdir -p /code/tmp/pids && chown app:app /code/tmp /code/tmp/pids
 
+USER app
 USER app
 HEALTHCHECK --interval=1m --timeout=5s --start-period=30s \
   CMD curl -fsS http://localhost:3000/up || exit 1
-
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/code/entrypoint.sh"]
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
