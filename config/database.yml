@@ -84,16 +84,6 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 
-<% if Rails.env.production?
-    queue_url = ENV["QUEUE_DATABASE_URL"].presence || raise("QUEUE_DATABASE_URL must be set")
-    raise "QUEUE_DATABASE_URL must refer to a separate database" if queue_url == ENV["DATABASE_URL"]
-  end %>
 production:
-  primary:
-    <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
-  queue:
-    <<: *default
-    url: <%= queue_url.to_json %>
-    migrations_paths: db/queue_migrate
-    seeds: false
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>

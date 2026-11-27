@@ -21,8 +21,6 @@ gem "bootsnap", "~> 1.3"
 gem "deface"
 gem "puma", ">= 6.3.1"
 gem "rails_semantic_logger"
-gem "solid_queue", "~> 1.7"
-gem "solid_queue_monitor", "~> 2.2"
 
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
@@ -39,4 +37,6 @@ end
 
 group :production do
   gem "aws-sdk-s3", require: false
+  gem "sidekiq"
+  gem "sidekiq-cron"
 end

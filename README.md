@@ -6,34 +6,34 @@ This is the open-source repository for decidim_panama, based on [Decidim](https:
 
 ## Production job queue
 
-Solid Queue uses a separate PostgreSQL database. Set `DATABASE_URL` for the
-application and `QUEUE_DATABASE_URL` for a different, dedicated queue database.
-Run `bin/rails db:prepare` before starting workers to create or migrate the
-databases and load the queue schema.
+Production uses Sidekiq for Active Job and Redis for queue storage. Set
+`REDIS_URL` to a Redis instance reachable by the web and worker processes.
+`SIDEKIQ_REDIS_URL` can override that URL for Sidekiq while leaving
+`REDIS_URL` for Action Cable. The worker reads its concurrency and queue list
+from `config/sidekiq.yml`; recurring jobs are loaded from `config/schedule.yml`
+by Sidekiq-Cron.
 
-The Docker entrypoint runs `db:prepare` and `data:migrate` before starting its
-command. For multi-instance deployments, run these tasks once during deployment
-and set `SKIP_MIGRATIONS=1` on the instances. Run `bin/jobs` as a separate
-worker process with the same database configuration. Alternatively, set
-`SOLID_QUEUE_IN_PUMA=true` to run the supervisor inside Puma instead of running
-a separate worker. `QUEUE_ADAPTER` selects the Active Job adapter and defaults
-to `solid_queue`.
+Run database preparation and Decidim data migrations once during deployment,
+then start the web and worker processes separately. Each Sidekiq worker must
+use the same application configuration and Redis URL as the web process.
+`/sidekiq` is available in production to authenticated Decidim administrators.
 
 ### Docker examples
 
 Build the image and use an existing Docker network named `decidim` that can
-reach PostgreSQL. Create a private environment file outside the repository
-(for example, `../decidim-production.env`) containing `DATABASE_URL`,
-`QUEUE_DATABASE_URL`, `SECRET_KEY_BASE`, and any other production settings.
-Database hosts in the URLs must be reachable from the containers; `localhost`
-inside a container refers to that container. Set `QUEUE_ADAPTER=solid_queue`.
+reach PostgreSQL and Redis. Create a private environment file outside the
+repository (for example, `../decidim-production.env`) containing `DATABASE_URL`,
+`REDIS_URL`, `SECRET_KEY_BASE`, and any other production settings. Hosts in
+these URLs must be reachable from the containers; `localhost` inside a
+container refers to that container.
 
-Prepare the databases once before starting either container:
+Prepare the database and run Decidim data migrations once before starting the
+web and worker containers:
 
 ```sh
 docker build -t decidim-panama .
 docker run --rm --network decidim --env-file ../decidim-production.env \
-  -e SKIP_MIGRATIONS= decidim-panama true
+  decidim-panama bundle exec rails db:prepare data:migrate
 ```
 
 The entrypoint runs both database preparation and data migrations. On a new
@@ -44,22 +44,10 @@ Run Puma and a separate jobs container:
 
 ```sh
 docker run -d --name decidim-web --network decidim \
-  --env-file ../decidim-production.env -e SKIP_MIGRATIONS=1 \
-  -e SOLID_QUEUE_IN_PUMA=false -p 3000:3000 decidim-panama
-docker run -d --name decidim-jobs --network decidim --no-healthcheck \
-  --env-file ../decidim-production.env -e SKIP_MIGRATIONS=1 decidim-panama bin/jobs
-```
-
-The web container explicitly disables the supervisor to override any setting
-in the environment file; `false` is already the default.
-
-Alternatively, run one Puma container with the queue supervisor enabled
-instead of the separate jobs container:
-
-```sh
-docker run -d --name decidim-web --network decidim \
-  --env-file ../decidim-production.env -e SKIP_MIGRATIONS=1 \
-  -e SOLID_QUEUE_IN_PUMA=true -p 3000:3000 decidim-panama
+  --env-file ../decidim-production.env -p 3000:3000 decidim-panama
+docker run -d --name decidim-sidekiq --network decidim --no-healthcheck \
+  --env-file ../decidim-production.env decidim-panama \
+  bundle exec sidekiq -C config/sidekiq.yml
 ```
 
 When using local file storage, mount the same persistent storage at
