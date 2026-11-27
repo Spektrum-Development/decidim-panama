@@ -13,9 +13,9 @@ if ENV["CONECTA_CLIENT_ID"].present? &&
              client_domain: ENV.fetch("CONECTA_CLIENT_DOMAIN", nil),
              full_host: ENV["CONECTA_CLIENT_DOMAIN"]&.delete_suffix("/"),
              client_options: {
-               site: ENV.fetch("CONECTA_SITE", "https://qapanamaconecta.aig.gob.pa")
+               site: ENV.fetch("CONECTA_SITE")
              },
-             api_site: ENV.fetch("CONECTA_API_SITE", "https://apiqapanamaconecta.aig.gob.pa:8443"),
+             api_site: ENV.fetch("CONECTA_API_SITE"),
              app_type: ENV.fetch("CONECTA_APP_TYPE", "web")
   end
 
@@ -27,6 +27,7 @@ if ENV["CONECTA_CLIENT_ID"].present? &&
   # Generic verification method using panama contacts
   Decidim::Verifications.register_workflow(:panama_conecta_handler) do |workflow|
     workflow.form = "PanamaConectaHandler"
+    workflow.expires_in = 1.month
   end
 
   # Update user's extended_data when login

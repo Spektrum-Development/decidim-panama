@@ -20,9 +20,9 @@ module OmniAuth
       option :client_secret, ENV.fetch("CONECTA_CLIENT_TOKEN", nil)
       option :client_token, ENV.fetch("CONECTA_CLIENT_TOKEN", nil)
       option :client_options, {
-        site: ENV.fetch("CONECTA_SITE", "https://qapanamaconecta.aig.gob.pa")
+        site: ENV.fetch("CONECTA_SITE", nil)
       }
-      option :api_site, ENV.fetch("CONECTA_API_SITE", "https://apiqapanamaconecta.aig.gob.pa:8443")
+      option :api_site, ENV.fetch("CONECTA_API_SITE", nil)
       option :app_type, ENV.fetch("CONECTA_APP_TYPE", "web")
       option :service_sso_path, "/api/sso/service-sso"
       option :user_info_path, "/api/user/user-info"
@@ -53,15 +53,16 @@ module OmniAuth
 
       def request_phase
         return fail!(:missing_client_token) if options.client_token.to_s.empty?
-        return fail!(:missing_client_domain) if options.client_domain.to_s.empty?
         return fail!(:missing_client_credentials) if options.client_id.to_s.empty? || options.client_secret.to_s.empty?
+
+        client_domain = configured_client_domain
 
         service_response = api_connection.post(options.service_sso_path) do |request|
           request.headers["Content-Type"] = "application/json"
           request.headers["User-Agent"] = "Ruby/#{RUBY_VERSION}"
           request.headers["Accept"] = "application/json"
           request.headers["Origin"] = options.client_options[:site].to_s.sub(%r{/+$}, "")
-          request.headers["referer"] = options.client_domain
+          request.headers["referer"] = client_domain
           request.body = JSON.generate(
             clientToken: options.client_token
           )
@@ -99,7 +100,7 @@ module OmniAuth
           request.headers["Authorization"] = "Bearer #{token}"
           request.headers["Content-Type"] = "application/json"
           request.headers["Origin"] = options.client_options[:site].to_s.sub(%r{/+$}, "")
-          request.headers["Referer"] = options.client_domain
+          request.headers["Referer"] = configured_client_domain
         end
         @user_info = parse_response(response).fetch("result")
         @user_info = @user_info.fetch("data", @user_info) if @user_info.is_a?(Hash)
@@ -144,6 +145,10 @@ module OmniAuth
 
       def api_connection
         @api_connection ||= Faraday.new(url: options.api_site)
+      end
+
+      def configured_client_domain
+        options.client_domain.presence || request.base_url
       end
 
       def parse_response(response)

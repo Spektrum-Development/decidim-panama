@@ -80,15 +80,15 @@ You are good to go!
 ## Panamá Conecta SSO
 
 The Panamá Conecta OmniAuth provider is enabled when `CONECTA_CLIENT_ID`
-and `CONECTA_CLIENT_TOKEN` are set. The registered client domain is also
-required to start sign-in. The client token is sent to Panamá Conecta's
-`service-sso` endpoint and as the login `accessToken`.
+and `CONECTA_CLIENT_TOKEN` are set. If `CONECTA_CLIENT_DOMAIN` is unset, the
+current Decidim request host is used as the client domain. The client token is
+sent to Panamá Conecta's `service-sso` endpoint and as the login `accessToken`.
 
 | Environment variable | Required | Default | Purpose |
 | --- | --- | --- | --- |
 | `CONECTA_CLIENT_ID` | Yes | — | Registered client ID required by the provider configuration. |
 | `CONECTA_CLIENT_TOKEN` | Yes | — | Registered `clientSecretToken`; sent in the `service-sso` JSON body and login URL. |
-| `CONECTA_CLIENT_DOMAIN` | Yes | — | Registered Decidim domain; used as OmniAuth's public host and the API request's `Referer`. |
+| `CONECTA_CLIENT_DOMAIN` | No | Current request host | Optional registered Decidim domain; used as OmniAuth's public host and the API request's `Referer`. |
 | `CONECTA_SITE` | No | `https://qapanamaconecta.aig.gob.pa` | Panamá Conecta login site; also sent as the `Origin` header to its API. |
 | `CONECTA_API_SITE` | No | `https://apiqapanamaconecta.aig.gob.pa:8443` | Base URL for the `service-sso` and user-info API requests. |
 | `CONECTA_APP_TYPE` | No | `web` | Application type included in the login URL, such as `web` or `desktop`. |
@@ -112,7 +112,8 @@ CONECTA_API_SITE=https://the-panama-conect-api-domain
 The normal OmniAuth request route starts the flow. The strategy posts
 `{ "clientToken": "..." }` to `/api/sso/service-sso` with JSON content and
 `Accept`, `User-Agent`, `Origin`, and `Referer` headers. `Origin` is
-`CONECTA_SITE`; `Referer` is `CONECTA_CLIENT_DOMAIN`. It uses the returned
+`CONECTA_SITE`; `Referer` is `CONECTA_CLIENT_DOMAIN` when configured, or the
+current Decidim request host otherwise. It uses the returned
 `result.data.clientdomain` and `result.data.clienttype` in the `/sso/login` URL.
 Panamá Conecta returns to the
 registered callback URL with a `token` query parameter. The strategy preserves

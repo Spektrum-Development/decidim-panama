@@ -94,6 +94,22 @@ module OmniAuth::Strategies
           )
         )
       end
+
+      it "uses the current Decidim request host as the referer when no client domain is configured" do
+        connection = double("Faraday connection")
+        service_data = {
+          "status" => true,
+          "result" => { "data" => { "clientdomain" => "https://registered.example.test", "clienttype" => "web" } }
+        }
+        requests = capture_post(connection, faraday_response(service_data))
+        allow(strategy).to receive(:api_connection).and_return(connection)
+        allow(strategy.options).to receive(:client_domain).and_return(nil)
+        set_request_env(strategy, "/users/auth/panama_conecta")
+
+        strategy.request_phase
+
+        expect(requests.first[:headers]["referer"]).to eq("http://example.org")
+      end
     end
 
     describe "#callback_phase" do
@@ -131,7 +147,7 @@ module OmniAuth::Strategies
         expect(auth.uid).to eq("00000000-0000-4000-8000-000000000000")
         expect(auth.info).to include(
           name: "Test OAuth Example User",
-          email: "oauth.user@example.invalid",
+          email: "oauth.user@example.org",
           first_name: "Test",
           last_name: "Example User"
         )

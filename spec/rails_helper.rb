@@ -7,6 +7,12 @@ require "simplecov"
 SimpleCov.start "rails"
 ENV["RAILS_ENV"] ||= "test"
 
+# The Panama Conecta provider is conditionally mounted during application boot.
+# These public dummy values make its routes available to mocked system specs in
+# CI; OmniAuth test mode prevents any request from reaching the external API.
+ENV["CONECTA_CLIENT_ID"] ||= "panama-conecta-test-client"
+ENV["CONECTA_CLIENT_TOKEN"] ||= "panama-conecta-test-token"
+
 require File.expand_path("../config/environment", __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
