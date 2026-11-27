@@ -14,3 +14,11 @@ es:
           simplemente cierra sesión e inicia sesión nuevamente usando el botón 'Iniciar sesión con Panamá Conecta'."
         errors:
           not_found: "Identidad de Panamá Conecta no encontrada"
+  dbc:
+    email:
+      footer:
+        operated_by: 'Plataforma operada por Spektrum para la consulta %{organization}'
+        identity: 'Cómo protegemos su identidad'
+        identity_page: 'proteccion-identidad.html'
+        help: 'Ayuda'
+          

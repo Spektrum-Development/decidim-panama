@@ -1,0 +1,3 @@
+<!-- insert_after 'erb[loud]:contains("stylesheet_pack_tag")' -->
+
+<%= render "layouts/dbc/mailer/email_header" %>
