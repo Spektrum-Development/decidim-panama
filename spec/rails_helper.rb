@@ -13,6 +13,7 @@ ENV["RAILS_ENV"] ||= "test"
 ENV["CONECTA_CLIENT_ID"] ||= "panama-conecta-test-client"
 ENV["CONECTA_CLIENT_TOKEN"] ||= "panama-conecta-test-token"
 ENV["CONECTA_SITE"] ||= "conecta.example.org"
+ENV["CONECTA_API_SITE"] ||= "conecta-api.example.org"
 
 require File.expand_path("../config/environment", __dir__)
 # Prevent database truncation if the environment is production
