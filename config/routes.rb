@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-if Rails.env.production?
-  require "sidekiq/web"
-  require "sidekiq/cron/web"
-end
+require "sidekiq/web"
+require "sidekiq/cron/web"
 
 Rails.application.routes.draw do
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
@@ -11,10 +9,8 @@ Rails.application.routes.draw do
   mount Decidim::Core::Engine => "/"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  if Rails.env.production?
-    authenticate :user, ->(u) { u.admin? } do
-      mount Sidekiq::Web => "/sidekiq"
-    end
+  authenticate :user, ->(u) { u.admin? } do
+    mount Sidekiq::Web => "/sidekiq"
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

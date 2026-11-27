@@ -1,0 +1,4 @@
+<!-- replace_contents 'table.row:eq(3) th.small-12.first.columns' -->
+
+<%# DBC: the operator's line %>
+<%= render "layouts/dbc/mailer/email_footer" %>

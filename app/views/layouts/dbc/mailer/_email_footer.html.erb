@@ -1,0 +1,19 @@
+<%# The line under every email that names the platform's operator, mounted at
+    app/views/layouts/mailer/_dbc_email_footer.html.erb and rendered by the mounted mailer layouts
+    (mailer.html.erb, newsletter_base.html.erb);
+    Ngäbere falls back to the Spanish (decidim/ngabere.rb). No personal data: the organisation's
+    name and two public pages. %>
+<% if @organization.present? %>
+  <%
+    language = %w[en es].include?(I18n.locale.to_s) ? I18n.locale.to_s : "es"
+    folder = language == @organization.default_locale.to_s ? "" : "#{language}/"
+    identity_url = "https://#{@organization.host}/#{folder}#{t("dbc.email.footer.identity_page", locale: language)}"
+    help_url = decidim.page_url("help", host: @organization.host)
+  %>
+  <p style="margin: 0; padding: 16px; font-size: 13px; line-height: 1.5; color: #4a4a4a; text-align: center;">
+    <%= t("dbc.email.footer.operated_by", organization: organization_name(@organization)) %><br>
+    <%= link_to t("dbc.email.footer.identity"), identity_url, style: "color: #0e373a;" %>
+    &middot;
+    <%= link_to t("dbc.email.footer.help"), help_url, style: "color: #0e373a;" %>
+  </p>
+<% end %>

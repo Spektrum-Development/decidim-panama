@@ -34,6 +34,6 @@ describe "Homepage" do
   end
 
   it "loads the custom fonts stylesheet" do
-    expect(page.execute_script("return window.getComputedStyle(document.getElementsByTagName('body')[0]).fontFamily")).to eq('"Source Sans Pro", ui-sans-serif, system-ui, sans-serif')
+    expect(page.execute_script("return window.getComputedStyle(document.getElementsByTagName('body')[0]).fontFamily")).to eq('"Museo Sans", museo-sans, "Avenir Next", Avenir, "Segoe UI", "Helvetica Neue", Arial, sans-serif')
   end
 end

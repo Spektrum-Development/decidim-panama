@@ -1,0 +1,43 @@
+$spektrum-deep: #002224;
+$spektrum-teal: #0e373a;
+$spektrum-footer-base: #001618;
+
+// Spektrum's typeface is licensed to its own site: it is used where a reader has it installed,
+// and a close system face stands in otherwise. No web font is loaded, as on the front door.
+body,
+.font-sans {
+  font-family:
+    'Museo Sans', 'museo-sans', 'Avenir Next', Avenir, 'Segoe UI', 'Helvetica Neue', Arial,
+    sans-serif;
+}
+
+// Light headings, as Spektrum sets them
+.h1,
+.h2,
+h1,
+h2 {
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+
+// Pill-shaped buttons
+.button:not([class*='button__text']) {
+  border-radius: 9999px;
+}
+
+// A space without a banner image gets the brand's teal, where Decidim would darken the white page
+// to grey; a banner image, when one is added, still shows as Decidim draws it
+section:not([style*='background-image']) > .participatory-space__hero {
+  backdrop-filter: none;
+  background-color: $spektrum-teal;
+}
+
+// Decidim's footer rules load after this file with the same weight, so these name the footer too
+footer .main-footer {
+  background-color: $spektrum-deep;
+}
+
+// Decidim's own credit stays: the site is made with its free software
+footer .mini-footer {
+  background-color: $spektrum-footer-base;
+}

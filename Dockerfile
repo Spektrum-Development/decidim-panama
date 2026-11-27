@@ -90,6 +90,7 @@ RUN addgroup --system --gid 1000 app && \
     adduser --system --uid 1000 --home /app --group app
 
 WORKDIR /app
+COPY ./entrypoint.sh /app/entrypoint.sh
 COPY --from=builder --chown=app:app /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder --chown=app:app /app /app
 RUN mkdir -p /app/tmp/pids && chown app:app /app/tmp /app/tmp/pids
@@ -98,4 +99,5 @@ USER app
 HEALTHCHECK --interval=1m --timeout=5s --start-period=30s \
   CMD curl -fsS http://localhost:3000/up || exit 1
 
+ENTRYPOINT ["./entrypoint.sh"]
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
