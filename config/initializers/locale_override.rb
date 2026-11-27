@@ -36,3 +36,9 @@ Rails.application.config.to_prepare do
   end
   Decidim::DecidimDeviseMailer.prepend(Dbc::AccountEmailLocale)
 end
+
+Rails.application.config.after_initialize do
+  # Rails' own fallbacks go to the default language, which a deployment may set to English; the
+  # Ngäbere reader's is Spanish whatever the default
+  I18n.fallbacks.map(gym: :es) if Decidim.available_locales.include?(:gym) && I18n.respond_to?(:fallbacks)
+end
