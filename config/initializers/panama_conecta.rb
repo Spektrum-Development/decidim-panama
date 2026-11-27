@@ -23,4 +23,27 @@ if ENV["CONECTA_CLIENT_ID"].present? &&
     enabled: true,
     icon_path: "media/images/panama_conecta-blanco.png"
   }
+
+  # Generic verification method using panama contacts
+  Decidim::Verifications.register_workflow(:panama_conecta_handler) do |workflow|
+    workflow.form = "PanamaConectaHandler"
+  end
+
+  # Update user's extended_data when login
+  ActiveSupport::Notifications.subscribe(/decidim\.user\.omniauth_(registration|login)/) do |_name, data|
+    user = Decidim::User.find_by(id: data[:user_id])
+    # Verify if the user is a Panamá Conecta member
+    handler = Decidim::AuthorizationHandler.handler_for("panama_conecta_handler", user:)
+    if handler
+      Decidim::Verifications::AuthorizeUser.call(handler, user.organization) do
+        on(:ok) do
+          Rails.logger.info "User #{user.id} verified as Panamá Conecta member as #{handler.unique_id}"
+        end
+
+        on(:invalid) do
+          Rails.logger.error "User #{user.id} not verified as Panamá Conecta member"
+        end
+      end
+    end
+  end
 end

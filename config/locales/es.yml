@@ -3,3 +3,14 @@ es:
     login:
       admin_login: Acceso de administración
       sign_in_panama_conecta: Iniciar sesión con Panamá Conecta
+  decidim:
+    authorization_handlers:
+      panama_conecta_handler:
+        name: "Panamá Conecta"
+        explanation: "Verifica tu identidad usando Panamá Conecta"
+        panama_conecta_members_only: "Esta verificación se otorga a ciudadanos verificados a través de Panamá Conecta. Se concede automáticamente al iniciar sesión con el botón 'Iniciar sesión con Panamá Conecta'."
+        login_with_panama_conecta: "Si por alguna razón no lo tienes activado, puedes intentar
+          verificarte presionando el botón de abajo. Si este método no funciona,
+          simplemente cierra sesión e inicia sesión nuevamente usando el botón 'Iniciar sesión con Panamá Conecta'."
+        errors:
+          not_found: "Identidad de Panamá Conecta no encontrada"

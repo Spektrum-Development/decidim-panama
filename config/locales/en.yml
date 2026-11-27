@@ -3,3 +3,14 @@ en:
     login:
       admin_login: Administration access
       sign_in_panama_conecta: Log with Panamá Conecta
+  decidim:
+    authorization_handlers:
+      panama_conecta_handler:
+        name: "Panamá Conecta"
+        explanation: "Verify your identity using Panamá Conecta"
+        panama_conecta_members_only: "This verification is given to citizens verified through Panamá Conecta. It is granted automatically when logging in with the 'Sign in with Panamá Conecta' button."
+        login_with_panama_conecta: "If for some reason you do not have it activated, you can try
+          to verify yourself by pressing the button below. If this method does not work,
+          simply log out and log in again using the 'Sign in with Panamá Conecta' button."
+        errors:
+          not_found: "Panamá Conecta identity not found"
